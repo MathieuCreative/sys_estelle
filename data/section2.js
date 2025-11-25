@@ -17,12 +17,20 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Quelles sont les deux grandes fonctions d'un OS ?",
-                r: "1) <strong>Abstraction du matériel</strong> : fournir une interface simple aux applications, cacher la complexité. 2) <strong>Gestion des ressources</strong> : partager CPU, mémoire et périphériques entre les programmes de manière équitable et sécurisée."
+                q: "Où se situe un OS selon cette diapo ?",
+                r: "Un OS est un logiciel qui se situe <strong>entre le matériel et les applications</strong>."
             },
             {
-                q: "Pourquoi un OS n'est-il pas toujours nécessaire ?",
-                r: "Pour les <strong>systèmes embarqués simples</strong> (microcontrôleurs), un seul programme tourne en boucle. Pas besoin de multi-tâches ni d'abstraction complexe. Le programme accède directement au matériel."
+                q: "Quels sont les trois rôles principaux d'un OS listés dans cette diapo ?",
+                r: "1) <strong>Abstraction</strong> : cache les détails du matériel. 2) <strong>Multi-tâches</strong> : gère plusieurs programmes simultanément. 3) <strong>Multi-utilisateurs</strong> : permet le partage de la machine."
+            },
+            {
+                q: "Que signifie le rôle 'Abstraction' de l'OS dans cette diapo ?",
+                r: "Cacher les détails du matériel aux applications. Par exemple, plus besoin de connaître le modèle exact de disque dur."
+            },
+            {
+                q: "Quel est le point clé à retenir de cette diapo ?",
+                r: "Certains systèmes embarqués n'ont <strong>pas d'OS</strong> : le programme tourne directement sur le matériel."
             }
         ]
     },
@@ -40,8 +48,12 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Pourquoi dit-on que les OS sont parmi les logiciels les plus complexes ?",
-                r: "Ils cumulent : <strong>proximité matérielle</strong> (gestion bas-niveau), <strong>génie logiciel</strong> (millions de lignes de code), <strong>performances critiques</strong>, et des <strong>compromis difficiles</strong> (sécurité vs vitesse, simplicité vs puissance). Tout bug peut crasher le système entier."
+                q: "Quelles sont les trois caractéristiques des OS qui les rendent complexes selon cette diapo ?",
+                r: "1) <strong>Très proche du matériel</strong> : nécessite de comprendre l'architecture. 2) <strong>Performances critiques</strong> : chaque microseconde compte. 3) <strong>Compromis permanents</strong> : vitesse vs sécurité, simplicité vs fonctionnalités."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Les mêmes problématiques se retrouvent ailleurs : <strong>navigateurs web, JVM, bases de données</strong>."
             }
         ]
     },
@@ -61,12 +73,20 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Pourquoi l'environnement de bureau (GNOME, KDE) n'est-il pas l'OS ?",
-                r: "L'environnement de bureau est un <strong>programme utilisateur</strong> qui tourne au-dessus du noyau. Il utilise les services de l'OS pour dessiner les fenêtres, gérer la souris, etc. On peut changer d'environnement sans changer d'OS."
+                q: "Citez trois exemples d'éléments qui NE SONT PAS l'OS selon cette diapo.",
+                r: "Les <strong>compilateurs</strong> (gcc, clang), les <strong>environnements de bureau</strong> (GNOME, KDE), et le <strong>shell</strong> (Bash, Zsh)."
             },
             {
-                q: "Quelle est la différence entre root et le noyau ?",
-                r: "<strong>root</strong> est un <strong>utilisateur</strong> avec des privilèges étendus (accordés par le noyau). Le <strong>noyau</strong> est le code qui contrôle tout le matériel. root peut faire beaucoup de choses, mais reste limité par ce que le noyau autorise."
+                q: "Que sont les outils CLI (ls, cp, grep) selon cette diapo ?",
+                r: "Ce sont des <strong>programmes utilisateur</strong>, pas des composants de l'OS."
+            },
+            {
+                q: "Qu'est-ce que root selon cette diapo ?",
+                r: "root est un <strong>utilisateur</strong>, pas le noyau."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Tous ces éléments sont des programmes qui tournent <strong>AU-DESSUS de l'OS</strong>."
             }
         ]
     },
@@ -84,12 +104,20 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que la libc et pourquoi est-elle importante ?",
-                r: "La <strong>libc</strong> (glibc sous Linux) est la bibliothèque C standard. Elle fournit les fonctions comme <code>printf()</code>, <code>malloc()</code> et surtout les <strong>wrappers des appels système</strong>. Sans elle, les programmes ne peuvent pas communiquer facilement avec le noyau."
+                q: "Quels sont les trois éléments qui peuvent constituer l'OS selon cette diapo ?",
+                r: "1) <strong>Le noyau (kernel)</strong> : le cœur, s'exécute en mode privilégié. 2) <strong>La libc</strong> : bibliothèque standard qui fournit les appels système. 3) <strong>Certains services système</strong> : démons essentiels."
             },
             {
-                q: "Pourquoi dit-on que les limites d'un OS sont floues ?",
-                r: "Le <strong>noyau seul</strong> ne permet pas d'utiliser un ordinateur (pas de shell, pas de commandes). Mais où s'arrête l'OS ? La libc ? Les outils de base ? L'environnement graphique ? Chaque distribution fait des choix différents."
+                q: "Qu'est-ce que le noyau (kernel) selon cette diapo ?",
+                r: "Le <strong>cœur</strong> de l'OS, qui s'exécute en <strong>mode privilégié</strong>."
+            },
+            {
+                q: "Quel est le rôle de la libc selon cette diapo ?",
+                r: "Bibliothèque standard qui <strong>fournit les appels système</strong>."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Les limites exactes d'un OS sont <strong>floues</strong>. Le noyau seul ne suffit pas à avoir un système utilisable."
             }
         ]
     },
@@ -113,12 +141,24 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence fondamentale entre root et le noyau ?",
-                r: "<strong>Root</strong> est privilégié par le <strong>logiciel</strong> (le noyau lui accorde des droits). Le <strong>noyau</strong> est privilégié par le <strong>matériel</strong> (le processeur lui-même). Root ne peut pas faire ce que le noyau interdit, mais le noyau peut tout faire."
+                q: "Comment root est-il privilégié selon cette diapo ?",
+                r: "Root est privilégié <strong>logiciellement</strong> par le noyau."
             },
             {
-                q: "Root peut-il modifier le noyau en cours d'exécution ?",
-                r: "Partiellement. Root peut <strong>charger des modules</strong> noyau (drivers), modifier certains paramètres via <code>/proc</code> ou <code>/sys</code>. Mais il ne peut pas modifier le code noyau en mémoire arbitrairement. Le noyau se protège lui-même."
+                q: "Comment le noyau est-il privilégié selon cette diapo ?",
+                r: "Le noyau est privilégié <strong>matériellement</strong> par le processeur (Ring 0)."
+            },
+            {
+                q: "Que peut faire root selon cette diapo ?",
+                r: "Root peut <strong>installer des logiciels</strong> et <strong>modifier des fichiers système</strong>."
+            },
+            {
+                q: "Qui décide de ce que root peut faire selon cette diapo ?",
+                r: "Le <strong>noyau</strong> décide ce que root peut ou ne peut pas faire."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Le noyau est <strong>au-dessus de root</strong> dans la hiérarchie des privilèges."
             }
         ]
     },
@@ -137,12 +177,20 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Pourquoi MS-DOS n'avait-il pas de protection mémoire ?",
-                r: "MS-DOS date d'une époque où : 1) Les PC étaient mono-utilisateur et mono-tâche. 2) Les programmes étaient supposés fiables. 3) Implémenter la protection aurait été coûteux en performances. Résultat : n'importe quel programme pouvait accéder à toute la mémoire."
+                q: "Citez un exemple d'OS primitif mentionné dans cette diapo.",
+                r: "<strong>MS-DOS</strong> (1981-2001)."
             },
             {
-                q: "Quels problèmes l'absence de multi-tâches pose-t-elle ?",
-                r: "Sans multi-tâches : 1) On ne peut pas écouter de la musique en écrivant un document. 2) Si un programme attend une entrée réseau, tout le système est bloqué. 3) Impossible d'avoir plusieurs utilisateurs simultanés."
+                q: "Quelles sont les quatre caractéristiques d'un OS primitif selon cette diapo ?",
+                r: "1) Abstraction du matériel, mais <strong>pas de protection</strong>. 2) <strong>Un seul utilisateur</strong>. 3) <strong>Un seul programme</strong> s'exécute à la fois. 4) Hypothèse : les programmes sont bien codés et pas malveillants."
+            },
+            {
+                q: "Combien de programmes peuvent s'exécuter à la fois dans un OS primitif selon cette diapo ?",
+                r: "<strong>Un seul programme</strong> s'exécute à la fois."
+            },
+            {
+                q: "Quel est le problème clé d'un OS primitif selon cette diapo ?",
+                r: "Un programme bugué ou malveillant peut <strong>tout casser</strong>, accéder à <strong>toute la mémoire</strong>."
             }
         ]
     },
@@ -169,12 +217,16 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Comment l'OS empêche-t-il un programme d'accéder à la mémoire des autres ?",
-                r: "Grâce à la <strong>mémoire virtuelle</strong> et la <strong>MMU</strong> (Memory Management Unit). Chaque processus a son propre espace d'adressage. Les adresses virtuelles sont traduites en adresses physiques par le matériel, qui vérifie les droits d'accès."
+                q: "Que permet le multi-tâches selon cette diapo ?",
+                r: "Plusieurs programmes s'exécutent \"en même temps\" et chaque programme a sa <strong>propre zone mémoire</strong>. Si un programme attend (I/O), un autre prend le relais."
             },
             {
-                q: "Comment l'OS gère-t-il un programme en boucle infinie ?",
-                r: "L'<strong>interruption d'horloge</strong> (timer interrupt) se déclenche régulièrement (~1ms sous Linux). Le noyau reprend le contrôle et peut décider de donner le CPU à un autre processus. C'est le principe de l'<strong>ordonnancement préemptif</strong>."
+                q: "Quelles sont les deux protections mentionnées dans cette diapo ?",
+                r: "1) Un programme en <strong>boucle infinie</strong> ne bloque pas les autres. 2) Un programme ne peut pas <strong>lire la mémoire</strong> des autres."
+            },
+            {
+                q: "Que permet le multi-utilisateurs selon cette diapo ?",
+                r: "Répartition <strong>équitable</strong> des ressources et <strong>isolation entre utilisateurs</strong>."
             }
         ]
     },
@@ -198,12 +250,28 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce qu'un noyau monolithique ?",
-                r: "Un noyau où <strong>tout le code système</strong> (pilotes, système de fichiers, pile réseau, ordonnanceur) s'exécute en <strong>mode privilégié</strong> dans le même espace mémoire. Avantage : performances. Inconvénient : un bug dans un pilote peut crasher tout le système."
+                q: "Quelles sont les deux grandes architectures de noyau selon cette diapo ?",
+                r: "<strong>Noyau monolithique</strong> et <strong>Micro-noyau</strong>."
             },
             {
-                q: "Qu'est-ce qu'un micro-noyau ?",
-                r: "Un noyau <strong>minimal</strong> qui ne fait que l'essentiel (IPC, gestion mémoire basique, ordonnancement). Les pilotes et services tournent comme des <strong>processus utilisateur</strong>. Avantage : isolation, stabilité. Inconvénient : overhead de communication entre services."
+                q: "Où s'exécute le code d'un noyau monolithique selon cette diapo ?",
+                r: "Tout le code noyau tourne en <strong>mode privilégié</strong>."
+            },
+            {
+                q: "Citez trois exemples de noyaux monolithiques mentionnés dans cette diapo.",
+                r: "<strong>Linux, Windows, macOS</strong>."
+            },
+            {
+                q: "Que contient un micro-noyau selon cette diapo ?",
+                r: "Un noyau <strong>minimal</strong> : IPC, ordonnancement basique."
+            },
+            {
+                q: "Où se trouvent les services dans un micro-noyau selon cette diapo ?",
+                r: "Les services sont dans des <strong>processus séparés</strong> (serveurs)."
+            },
+            {
+                q: "Citez un exemple de micro-noyau mentionné dans cette diapo.",
+                r: "<strong>GNU Hurd</strong> ou <strong>QNX</strong>."
             }
         ]
     },
@@ -223,12 +291,24 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Pourquoi Linux est-il monolithique et non micro-noyau ?",
-                r: "Choix historique de Linus Torvalds pour les <strong>performances</strong>. Les communications entre composants sont plus rapides quand tout est dans le même espace mémoire. Le débat Tanenbaum-Torvalds (1992) opposait ces deux approches."
+                q: "Quel type de noyau a de meilleures performances selon cette diapo ?",
+                r: "Le noyau <strong>monolithique</strong> a de meilleures performances."
             },
             {
-                q: "Comment Linux compense-t-il les inconvénients du monolithique ?",
-                r: "Par les <strong>modules noyau</strong> : on peut charger/décharger des pilotes dynamiquement sans redémarrer. Cela offre une certaine flexibilité tout en gardant les performances du monolithique."
+                q: "Quel est le problème de stabilité d'un noyau monolithique selon cette diapo ?",
+                r: "Un bug = <strong>crash</strong> (de tout le système)."
+            },
+            {
+                q: "Quel type de noyau a une meilleure stabilité selon cette diapo ?",
+                r: "Le <strong>micro-noyau</strong> : les bugs sont <strong>isolés</strong>."
+            },
+            {
+                q: "Quel est l'avantage du micro-noyau en termes de sécurité selon cette diapo ?",
+                r: "Surface d'attaque <strong>réduite</strong> (moins de code en mode privilégié)."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Linux est monolithique mais <strong>modulaire</strong> : on peut charger/décharger des modules sans redémarrer."
             }
         ]
     },
@@ -252,12 +332,28 @@ const section2Data = [
         `,
         questions: [
             {
-                q: "Quelle est la relation entre Linux et Android ?",
-                r: "<strong>Android utilise le noyau Linux</strong> mais avec des modifications (Binder pour IPC, wakelocks pour batterie). Au-dessus, c'est très différent : pas de GNU, runtime Java/Kotlin, framework Android. C'est du \"Linux\" mais pas du \"GNU/Linux\"."
+                q: "Où est dominant Windows selon cette diapo ?",
+                r: "Sur les <strong>PC de bureau</strong>."
             },
             {
-                q: "Pourquoi GNU Hurd n'a-t-il jamais remplacé Linux ?",
-                r: "GNU Hurd (micro-noyau) était en développement depuis 1983 mais jamais stable. Quand Linux (monolithique) est sorti en 1991, il fonctionnait. La communauté a adopté Linux + outils GNU = GNU/Linux. Hurd reste expérimental."
+                q: "Dans quels domaines trouve-t-on Linux selon cette diapo ?",
+                r: "<strong>Serveurs, embarqué, Android</strong>."
+            },
+            {
+                q: "Quelle est la base de macOS selon cette diapo ?",
+                r: "macOS a une base <strong>Unix (BSD)</strong>."
+            },
+            {
+                q: "Quel noyau utilise Android selon cette diapo ?",
+                r: "Android utilise le <strong>noyau Linux</strong>."
+            },
+            {
+                q: "Citez deux systèmes BSD mentionnés dans cette diapo.",
+                r: "<strong>FreeBSD</strong> et <strong>OpenBSD</strong>."
+            },
+            {
+                q: "Quel est le seul vrai OS micro-noyau mentionné dans cette diapo ?",
+                r: "<strong>GNU Hurd</strong>, mais il n'a jamais été finalisé."
             }
         ]
     }

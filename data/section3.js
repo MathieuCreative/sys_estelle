@@ -18,12 +18,28 @@ const section3Data = [
         `,
         questions: [
             {
-                q: "Pourquoi dit-on GNU/Linux et pas juste Linux ?",
-                r: "<strong>Linux</strong> n'est que le noyau. Ce qu'on utilise au quotidien (shell, compilateur, commandes de base) vient du projet <strong>GNU</strong>. Dire \"GNU/Linux\" reconnaît les deux contributions. En pratique, beaucoup disent juste \"Linux\" par abus de langage."
+                q: "Qu'est-ce que Linux selon cette diapo ?",
+                r: "Linux = juste le <strong>noyau</strong>, créé par Linus Torvalds en 1991."
             },
             {
-                q: "Quelle est la différence entre GNU/Linux et BSD ?",
-                r: "<strong>GNU/Linux</strong> = noyau Linux + outils GNU (deux projets séparés). <strong>BSD</strong> = noyau et outils développés ensemble, descendant direct d'Unix. Licences différentes aussi : GPL (GNU) vs BSD (plus permissive)."
+                q: "Qui a créé le projet GNU et en quelle année selon cette diapo ?",
+                r: "<strong>Richard Stallman</strong> en 1983."
+            },
+            {
+                q: "Que contient le projet GNU selon cette diapo ?",
+                r: "Des outils : <strong>gcc, bash, coreutils</strong>... Mais le noyau Hurd n'a jamais été prêt."
+            },
+            {
+                q: "Qu'est-ce que GNU/Linux selon cette diapo ?",
+                r: "<strong>Noyau Linux + outils GNU</strong> = ce qu'on appelle couramment \"Linux\"."
+            },
+            {
+                q: "Citez trois systèmes BSD mentionnés dans cette diapo.",
+                r: "<strong>FreeBSD, OpenBSD, NetBSD</strong>."
+            },
+            {
+                q: "Comment sont composés les systèmes BSD selon cette diapo ?",
+                r: "<strong>Noyau + outils = un tout cohérent</strong>."
             }
         ]
     },
@@ -43,8 +59,28 @@ const section3Data = [
         `,
         questions: [
             {
-                q: "Linux est-il un Unix ?",
-                r: "Non, Linux est <strong>\"Unix-like\"</strong>. Il est inspiré d'Unix et compatible POSIX, mais son code a été écrit from scratch par Linus Torvalds. Il n'a pas de filiation directe avec le code Unix original (contrairement à BSD)."
+                q: "Quand et où a été créé Unix selon cette diapo ?",
+                r: "<strong>1969, Bell Labs</strong>."
+            },
+            {
+                q: "Quand a été créée la branche BSD selon cette diapo ?",
+                r: "En <strong>1977</strong> (branche Berkeley)."
+            },
+            {
+                q: "Citez deux systèmes issus de BSD selon cette diapo.",
+                r: "<strong>FreeBSD, OpenBSD, macOS</strong>."
+            },
+            {
+                q: "Citez deux systèmes issus de System V selon cette diapo.",
+                r: "<strong>Solaris, HP-UX</strong>."
+            },
+            {
+                q: "Comment Linux a-t-il été créé selon cette diapo ?",
+                r: "Linux (1991) est <strong>inspiré d'Unix</strong> mais le code a été écrit <strong>from scratch</strong>."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "macOS est basé sur <strong>Darwin</strong>, qui vient de <strong>BSD</strong> (donc Unix)."
             }
         ]
     },
@@ -68,12 +104,20 @@ const section3Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce qu'un module noyau ?",
-                r: "C'est du <strong>code compilé</strong> qu'on peut charger dans le noyau en cours d'exécution. Il s'exécute en mode privilégié (Ring 0). Exemples : pilotes de carte graphique, systèmes de fichiers (NTFS), protocoles réseau."
+                q: "Que sont les modules noyau selon cette diapo ?",
+                r: "Du <strong>code chargeable/déchargeable dynamiquement</strong>."
             },
             {
-                q: "Quelle est la différence entre insmod et modprobe ?",
-                r: "<code>insmod</code> charge un module spécifique (fichier .ko). <code>modprobe</code> est plus intelligent : il résout les <strong>dépendances</strong> automatiquement et cherche le module dans les chemins standards."
+                q: "À quoi servent les modules noyau selon cette diapo ?",
+                r: "Pilotes de périphériques, systèmes de fichiers, fonctionnalités réseau."
+            },
+            {
+                q: "Citez deux avantages des modules noyau mentionnés dans cette diapo.",
+                r: "1) <strong>Pas besoin de redémarrer</strong> pour ajouter un pilote. 2) Le noyau de base reste <strong>petit</strong>."
+            },
+            {
+                q: "Citez trois commandes utiles pour les modules mentionnées dans cette diapo.",
+                r: "<code>lsmod</code>, <code>modprobe</code>, <code>insmod</code>, <code>rmmod</code>."
             }
         ]
     },
@@ -93,12 +137,24 @@ const section3Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que le VFS (Virtual File System) ?",
-                r: "C'est une <strong>couche d'abstraction</strong> qui permet d'utiliser la même interface (open, read, write) quel que soit le système de fichiers réel (ext4, NTFS, FAT32). Les appels passent par le VFS qui redirige vers le bon driver."
+                q: "Que gère le sous-système 'Process Management' selon cette diapo ?",
+                r: "<strong>Création</strong> et <strong>ordonnancement</strong> des processus/threads."
             },
             {
-                q: "Pourquoi les pilotes sont-ils dans le noyau ?",
-                r: "Les pilotes doivent accéder <strong>directement au matériel</strong> (ports I/O, mémoire mappée). Cela nécessite le mode privilégié. Dans un micro-noyau, les pilotes seraient en espace utilisateur mais avec un overhead de communication."
+                q: "Que gère le sous-système 'Memory Management' selon cette diapo ?",
+                r: "<strong>Mémoire virtuelle, pagination, allocation</strong>."
+            },
+            {
+                q: "Qu'est-ce que le Virtual File System selon cette diapo ?",
+                r: "<strong>Abstraction des systèmes de fichiers</strong>."
+            },
+            {
+                q: "Que contient le Network Stack selon cette diapo ?",
+                r: "Les <strong>protocoles réseau</strong> (TCP/IP, sockets)."
+            },
+            {
+                q: "Quel est le rôle des Device Drivers selon cette diapo ?",
+                r: "<strong>Interface avec le matériel</strong>."
             }
         ]
     },
@@ -119,12 +175,28 @@ const section3Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre Debian et Ubuntu ?",
-                r: "<strong>Ubuntu est basé sur Debian</strong>. Debian privilégie la <strong>stabilité</strong> (versions plus anciennes mais testées). Ubuntu sort des versions régulières avec des logiciels plus récents. Ubuntu ajoute des outils d'installation et configuration."
+                q: "Qu'est-ce qu'une distribution selon cette diapo ?",
+                r: "Un <strong>ensemble cohérent de logiciels pré-configurés</strong>."
             },
             {
-                q: "Pourquoi y a-t-il autant de distributions Linux ?",
-                r: "Chaque distribution fait des <strong>choix différents</strong> : politique de mise à jour (rolling vs fixed), gestionnaire de paquets, philosophie (libre only vs pragmatique), public cible (serveurs, desktop, embarqué). Le code source ouvert permet à chacun de créer sa distribution."
+                q: "Citez quatre composants d'une distribution mentionnés dans cette diapo.",
+                r: "1) Un <strong>noyau</strong>. 2) Une <strong>libc</strong>. 3) Un <strong>gestionnaire de services</strong>. 4) Un <strong>gestionnaire de paquets</strong>."
+            },
+            {
+                q: "Citez deux exemples de gestionnaires de services mentionnés dans cette diapo.",
+                r: "<strong>systemd</strong>, <strong>OpenRC</strong>."
+            },
+            {
+                q: "Citez deux exemples de gestionnaires de paquets mentionnés dans cette diapo.",
+                r: "<strong>apt, dnf, pacman</strong>."
+            },
+            {
+                q: "Citez trois distributions mentionnées dans cette diapo.",
+                r: "<strong>Debian, Ubuntu, Fedora, Arch Linux, Gentoo</strong>."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Les différences sont surtout dans la <strong>gestion des paquets</strong> et la <strong>philosophie</strong> (stabilité vs nouveauté)."
             }
         ]
     },
@@ -134,12 +206,7 @@ const section3Data = [
         resume: `
             <p><em>Diapo de transition vers la séquence de boot</em></p>
         `,
-        questions: [
-            {
-                q: "Quelles sont les grandes étapes du démarrage d'un ordinateur ?",
-                r: "1) <strong>Mise sous tension</strong> : CPU lit une adresse fixe. 2) <strong>BIOS/UEFI</strong> : initialise le matériel. 3) <strong>Bootloader</strong> (GRUB) : charge le noyau. 4) <strong>Noyau</strong> : initialise le système. 5) <strong>Init</strong> (systemd) : lance les services utilisateur."
-            }
-        ]
+        questions: []
     },
     {
         id: 27,
@@ -157,12 +224,24 @@ const section3Data = [
         `,
         questions: [
             {
-                q: "Pourquoi le CPU sait-il où commencer à exécuter du code ?",
-                r: "C'est <strong>câblé dans le processeur</strong>. À la mise sous tension, le Program Counter est initialisé à une adresse fixe (dépend de l'architecture). Cette adresse pointe vers une mémoire <strong>non volatile</strong> (ROM/Flash) contenant le firmware."
+                q: "Quel est l'état de la RAM à la mise sous tension selon cette diapo ?",
+                r: "La <strong>RAM est vide</strong> (mémoire volatile)."
             },
             {
-                q: "Qu'est-ce que le Bootstrap Processor ?",
-                r: "Sur un système multi-cœurs, <strong>un seul cœur</strong> démarre initialement : le Bootstrap Processor (BSP). Les autres cœurs (Application Processors) sont réveillés plus tard par le noyau, une fois l'initialisation de base terminée."
+                q: "Quel cœur commence en premier selon cette diapo ?",
+                r: "Le <strong>Bootstrap Processor</strong> (premier cœur)."
+            },
+            {
+                q: "Que lit le Bootstrap Processor selon cette diapo ?",
+                r: "Il lit une <strong>adresse fixe</strong> câblée en dur qui pointe vers la ROM."
+            },
+            {
+                q: "Que contient cette ROM selon cette diapo ?",
+                r: "Le <strong>BIOS/UEFI</strong>."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Le CPU est \"câblé\" pour commencer à une <strong>adresse précise</strong> (ex: 0xFFFFFFF0 sur x86)."
             }
         ]
     },
@@ -186,12 +265,28 @@ const section3Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre BIOS et UEFI ?",
-                r: "<strong>BIOS</strong> : ancien (1981), mode 16 bits, interface texte, boot via MBR. <strong>UEFI</strong> : moderne, mode 32/64 bits, interface graphique possible, boot via ESP (partition FAT32), support Secure Boot. UEFI remplace progressivement le BIOS."
+                q: "Que signifie BIOS selon cette diapo ?",
+                r: "<strong>Basic Input Output System</strong>."
             },
             {
-                q: "Qu'est-ce que le MBR ?",
-                r: "Le <strong>Master Boot Record</strong> est le premier secteur (512 octets) d'un disque. Il contient : 1) Du code de boot (446 octets). 2) La table des partitions (64 octets). 3) Une signature (2 octets). Le BIOS charge ce code qui lance le bootloader."
+                q: "Que signifie UEFI selon cette diapo ?",
+                r: "<strong>Unified Extensible Firmware Interface</strong>."
+            },
+            {
+                q: "Citez trois rôles du BIOS/UEFI mentionnés dans cette diapo.",
+                r: "1) <strong>Détecte le matériel</strong> (RAM, disques, périphériques). 2) <strong>Initialise</strong> les composants de base. 3) Cherche un <strong>bootloader</strong>."
+            },
+            {
+                q: "Quelles sont les limites du MBR selon cette diapo ?",
+                r: "MBR : ancien, <strong>4 partitions max</strong>, <strong>2 To max</strong>."
+            },
+            {
+                q: "Que signifie GPT selon cette diapo ?",
+                r: "<strong>GUID Partition Table</strong>."
+            },
+            {
+                q: "Quelles sont les caractéristiques de GPT selon cette diapo ?",
+                r: "GPT : moderne, <strong>128 partitions</strong>, <strong>taille énorme</strong>."
             }
         ]
     },
@@ -215,12 +310,24 @@ const section3Data = [
         `,
         questions: [
             {
-                q: "Pourquoi a-t-on besoin d'un bootloader ?",
-                r: "Le <strong>BIOS/UEFI</strong> ne connaît pas les systèmes de fichiers complexes et ne sait pas où trouver le noyau. Le bootloader fait l'intermédiaire : il sait lire ext4, localiser le fichier du noyau, et le charger en mémoire avec les bons paramètres."
+                q: "Citez un exemple de Boot Loader mentionné dans cette diapo.",
+                r: "<strong>GRUB</strong> (GRand Unified Bootloader)."
             },
             {
-                q: "Que contient la ligne de commande du noyau ?",
-                r: "Des paramètres passés au noyau au boot : <code>root=/dev/sda1</code> (partition racine), <code>quiet</code> (moins de messages), <code>init=/bin/bash</code> (pour recovery), <code>mem=4G</code> (limiter la RAM). Visible dans <code>/proc/cmdline</code>."
+                q: "Citez trois rôles du Boot Loader mentionnés dans cette diapo.",
+                r: "1) Permet de <strong>choisir quel OS</strong> démarrer (dual boot). 2) Passe des <strong>paramètres</strong> au noyau. 3) <strong>Charge le noyau en RAM</strong>."
+            },
+            {
+                q: "Que peut faire le bootloader que le BIOS/UEFI ne peut pas faire selon cette diapo ?",
+                r: "Il sait <strong>lire les systèmes de fichiers</strong> pour trouver le noyau."
+            },
+            {
+                q: "Que signifie GRUB selon cette diapo ?",
+                r: "<strong>GRand Unified Bootloader</strong>."
+            },
+            {
+                q: "Citez un fichier de configuration de GRUB mentionné dans cette diapo.",
+                r: "<code>/etc/default/grub</code> ou <code>/boot/grub/grub.cfg</code>."
             }
         ]
     },
@@ -247,16 +354,40 @@ const section3Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que systemd et pourquoi PID 1 ?",
-                r: "<strong>systemd</strong> est le gestionnaire de services de la plupart des distributions Linux modernes. Il a le <strong>PID 1</strong> car c'est le premier processus utilisateur lancé par le noyau. Il est l'ancêtre de tous les autres processus."
+                q: "Citez trois actions du noyau au démarrage selon cette diapo.",
+                r: "1) Initialise ses <strong>structures de données</strong> internes. 2) Configure la <strong>gestion mémoire</strong>. 3) Détecte et initialise les <strong>périphériques</strong>."
             },
             {
-                q: "Que se passe-t-il si l'init meurt ?",
-                r: "<strong>Kernel panic</strong>. Le noyau suppose que l'init (PID 1) tourne toujours. S'il meurt, le noyau ne sait plus quoi faire (plus de processus pour adopter les orphelins, plus de gestion des services). Le système devient inutilisable."
+                q: "Que fait le noyau avec les autres cœurs selon cette diapo ?",
+                r: "Il <strong>démarre les autres cœurs</strong>."
             },
             {
-                q: "Pourquoi l'init adopte-t-il les processus orphelins ?",
-                r: "Quand un processus meurt, ses enfants deviennent <strong>orphelins</strong>. Ils doivent avoir un parent pour que quelqu'un puisse récupérer leur code de retour (sinon ils deviennent zombies). L'init les adopte automatiquement."
+                q: "Citez deux exemples de threads noyau mentionnés dans cette diapo.",
+                r: "<strong>kthreadd, ksoftirqd</strong>."
+            },
+            {
+                q: "Quel est le PID de l'init selon cette diapo ?",
+                r: "<strong>PID 1</strong>."
+            },
+            {
+                q: "Quel est le type de processus de l'init selon cette diapo ?",
+                r: "Le premier processus <strong>utilisateur</strong>."
+            },
+            {
+                q: "Citez deux exemples d'init mentionnés dans cette diapo.",
+                r: "<strong>systemd</strong>, OpenRC, runit."
+            },
+            {
+                q: "Que lance l'init selon cette diapo ?",
+                r: "Tous les <strong>services</strong> : réseau, affichage, login, etc."
+            },
+            {
+                q: "Quel rôle l'init a-t-il avec les processus orphelins selon cette diapo ?",
+                r: "Il <strong>adopte</strong> les processus orphelins."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Si l'init crash, le <strong>système s'arrête</strong> : c'est le processus le plus critique."
             }
         ]
     }

@@ -8,12 +8,7 @@ const section1Data = [
         resume: `
             <p><em>Diapo de titre du cours</em></p>
         `,
-        questions: [
-            {
-                q: "Qu'est-ce qu'un système d'exploitation ?",
-                r: "Un OS est un logiciel qui gère les ressources matérielles (CPU, mémoire, disques) et fournit une interface simplifiée aux applications. Il fait le lien entre le matériel et les programmes utilisateur."
-            }
-        ]
+        questions: []
     },
     {
         id: 2,
@@ -21,12 +16,7 @@ const section1Data = [
         resume: `
             <p><em>Diapo d'organisation du cours (5 séances, partiel, prérequis)</em></p>
         `,
-        questions: [
-            {
-                q: "Qu'est-ce que la programmation système ?",
-                r: "C'est l'écriture de programmes qui utilisent directement les services de l'OS via des <strong>appels système</strong> (syscalls) comme fork(), open(), read(). Ce cours explique comment l'OS traite ces appels en interne."
-            }
-        ]
+        questions: []
     },
     {
         id: 3,
@@ -37,8 +27,16 @@ const section1Data = [
         `,
         questions: [
             {
-                q: "Pourquoi les concepts des OS sont-ils dits 'génériques' ?",
-                r: "Tous les OS modernes utilisent les mêmes concepts : processus, threads, mémoire virtuelle, ordonnancement, systèmes de fichiers. Ce qui change c'est l'implémentation. Donc ce qu'on apprend sur Linux s'applique aux autres OS."
+                q: "Où se situe ce cours dans la hiérarchie informatique ?",
+                r: "Ce cours se situe <strong>entre</strong> la programmation système (au-dessus) et l'architecture processeur (en-dessous)."
+            },
+            {
+                q: "Quels sont les concepts universels mentionnés dans cette diapo ?",
+                r: "Les processus, la mémoire virtuelle et l'ordonnancement sont des concepts <strong>universels</strong> à tous les OS."
+            },
+            {
+                q: "Qu'est-ce qui change entre Linux, Windows et macOS selon cette diapo ?",
+                r: "Seule l'<strong>implémentation</strong> change. Les concepts restent les mêmes."
             }
         ]
     },
@@ -57,12 +55,7 @@ const section1Data = [
         resume: `
             <p><em>Diapo listant les chapitres du cours</em></p>
         `,
-        questions: [
-            {
-                q: "Quels sont les thèmes principaux d'un cours sur les OS ?",
-                r: "1) <strong>Processus/Threads</strong> : comment les programmes s'exécutent. 2) <strong>Ordonnancement</strong> : qui utilise le CPU et quand. 3) <strong>Mémoire</strong> : pagination, mémoire virtuelle. 4) <strong>Systèmes de fichiers</strong>. 5) <strong>Synchronisation</strong> : comment éviter les conflits entre processus."
-            }
-        ]
+        questions: []
     },
     {
         id: 6,
@@ -83,16 +76,24 @@ const section1Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre cœur physique et cœur logique ?",
-                r: "Un <strong>cœur physique</strong> est une vraie unité de calcul matérielle. Un <strong>cœur logique</strong> est une subdivision permise par l'Hyper-threading/SMT : le cœur physique partage ses ressources entre 2 threads. Le gain n'est que de 20-30% (pas x2) car les threads partagent les mêmes unités de calcul."
+                q: "Que contient un CPU selon cette diapo ?",
+                r: "Le CPU contient plusieurs <strong>cœurs</strong>. Chaque cœur peut exécuter un programme indépendamment des autres."
             },
             {
-                q: "Que signifie SMT ?",
-                r: "<strong>SMT = Simultaneous Multithreading</strong>. Permet à un cœur d'exécuter plusieurs threads en même temps en partageant ses ressources. Hyper-threading est le nom Intel pour cette technologie."
+                q: "Quelle est la différence entre cœur physique et cœur logique selon cette diapo ?",
+                r: "Un cœur physique est une vraie unité de calcul. L'Hyper-threading (Intel) ou SMT (AMD) fait apparaître 1 cœur physique comme <strong>2 cœurs logiques</strong> pour mieux utiliser les ressources."
             },
             {
-                q: "Pourquoi la RAM est-elle dite 'volatile' ?",
-                r: "La RAM perd son contenu quand on coupe l'alimentation électrique. C'est pourquoi on doit sauvegarder sur disque (non-volatile) pour conserver les données."
+                q: "Quel est le gain de performance de l'Hyper-threading mentionné dans cette diapo ?",
+                r: "Le gain est d'environ <strong>20-30%</strong>, pas x2, car les threads partagent les mêmes unités de calcul."
+            },
+            {
+                q: "Quelles sont les caractéristiques de la RAM mentionnées dans cette diapo ?",
+                r: "La RAM est <strong>rapide</strong> mais <strong>volatile</strong> (perdue à l'extinction) et <strong>limitée en taille</strong>."
+            },
+            {
+                q: "Comment cette diapo définit-elle les périphériques ?",
+                r: "Les périphériques sont tout ce qui n'est pas CPU/RAM : disques, réseau, écran, etc."
             }
         ]
     },
@@ -106,12 +107,16 @@ const section1Data = [
         `,
         questions: [
             {
-                q: "Pourquoi un appel système est-il coûteux ?",
-                r: "Il faut : 1) Sauvegarder tous les registres du processus. 2) Passer du mode utilisateur au mode noyau (changement de privilège). 3) Exécuter le code du noyau. 4) Restaurer le contexte. Ce va-et-vient prend ~100-1000 ns contre ~1 ns pour une instruction simple."
+                q: "Combien de fois plus lent est un appel système par rapport à une instruction normale selon cette diapo ?",
+                r: "Un appel système est environ <strong>100 à 1000 fois plus lent</strong> qu'une instruction normale."
             },
             {
-                q: "Qu'est-ce qu'une instruction atomique ?",
-                r: "Une instruction qui s'exécute <strong>entièrement ou pas du tout</strong>, sans pouvoir être interrompue. Utilisée pour la synchronisation (ex: incrémenter un compteur partagé entre threads). Plus lente car doit verrouiller l'accès mémoire pour garantir la cohérence entre cœurs."
+                q: "Pourquoi un appel système nécessite-t-il un changement de contexte ?",
+                r: "Il faut : sauvegarder l'état du programme, <strong>passer en mode noyau</strong>, exécuter le code noyau, puis restaurer l'état. Tout ce processus prend du temps."
+            },
+            {
+                q: "Qu'est-ce qu'une instruction atomique selon cette diapo ?",
+                r: "Une opération qui <strong>ne peut pas être interrompue</strong>, utilisée pour la synchronisation. Plus lente car doit coordonner tous les cœurs."
             }
         ]
     },
@@ -134,16 +139,28 @@ const section1Data = [
         `,
         questions: [
             {
-                q: "Pourquoi existe-t-il une hiérarchie mémoire (cache, RAM, disque) ?",
-                r: "Compromis <strong>vitesse vs capacité vs coût</strong>. Les mémoires rapides sont chères et petites (cache), les mémoires grandes sont lentes et pas chères (disque). On utilise plusieurs niveaux pour avoir le meilleur des deux : les données fréquemment utilisées restent en cache."
+                q: "Quelle est la hiérarchie de vitesse mémoire selon cette diapo (du plus rapide au plus lent) ?",
+                r: "<strong>Registres/Cache</strong> → <strong>RAM</strong> → <strong>SSD</strong> → <strong>HDD</strong>"
             },
             {
-                q: "Qu'est-ce qu'une interruption ?",
-                r: "Signal (matériel ou logiciel) indiquant au CPU qu'un événement nécessite son attention. Quand elle arrive : 1) Le CPU sauvegarde son contexte. 2) Il exécute le <strong>handler</strong> (gestionnaire) de l'interruption. 3) Il restaure le contexte et reprend. Exemples : appui clavier, timer, paquet réseau reçu."
+                q: "Quel est le facteur de ralentissement entre chaque niveau de la hiérarchie mémoire ?",
+                r: "Chaque niveau est environ <strong>100x plus lent</strong> que le précédent."
             },
             {
-                q: "Pourquoi le HDD est-il beaucoup plus lent que le SSD ?",
-                r: "Le HDD a des <strong>pièces mécaniques</strong> : un plateau qui tourne et une tête de lecture qui se déplace. Ce mouvement physique prend ~10ms. Le SSD utilise de la mémoire flash (électronique pure), donc ~100x plus rapide."
+                q: "Pourquoi le cache existe-t-il selon cette diapo ?",
+                r: "Le cache existe car la <strong>RAM est trop lente pour le CPU</strong>."
+            },
+            {
+                q: "Pourquoi la mémoire virtuelle existe-t-elle selon cette diapo ?",
+                r: "La mémoire virtuelle existe car la RAM est <strong>limitée</strong>. On utilise le disque en complément."
+            },
+            {
+                q: "Pourquoi utilise-t-on le buffering I/O selon cette diapo ?",
+                r: "Le buffering I/O existe car le <strong>disque est très lent</strong>. On regroupe les accès pour minimiser le nombre d'opérations."
+            },
+            {
+                q: "Comment cette diapo définit-elle une interruption ?",
+                r: "Un <strong>signal</strong> qui prévient le CPU qu'un événement s'est produit (touche clavier, paquet réseau...). Le CPU arrête ce qu'il fait, traite l'événement, puis reprend."
             }
         ]
     },
@@ -153,16 +170,7 @@ const section1Data = [
         resume: `
             <p><em>Diapo de transition vers la section "Concepts généraux"</em></p>
         `,
-        questions: [
-            {
-                q: "Quels sont les deux rôles principaux d'un OS ?",
-                r: "1) <strong>Gestionnaire de ressources</strong> : partager le CPU, la mémoire et les périphériques entre tous les programmes de manière équitable. 2) <strong>Machine virtuelle</strong> : fournir des abstractions simples (fichiers, processus) qui cachent la complexité du matériel."
-            },
-            {
-                q: "Pourquoi séparer mode utilisateur et mode noyau ?",
-                r: "<strong>Sécurité</strong> : un programme ne peut pas accéder aux données des autres. <strong>Stabilité</strong> : un programme bugué ne peut pas planter tout le système. Seul le noyau a accès direct au matériel. Les programmes doivent passer par des appels système."
-            }
-        ]
+        questions: []
     }
 ];
 

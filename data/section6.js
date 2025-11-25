@@ -27,12 +27,16 @@ const section6Data = [
         `,
         questions: [
             {
-                q: "Pourquoi l'attente active est-elle généralement à éviter ?",
-                r: "L'attente active <strong>gaspille du temps CPU</strong> en bouclant continuellement. Le processeur pourrait exécuter d'autres tâches utiles. Elle n'est justifiée que pour des attentes <strong>très courtes</strong> (quelques cycles) où le coût du changement de contexte serait supérieur."
+                q: "Selon cette diapo, qu'est-ce que l'attente active (busy waiting) ?",
+                r: "Le processus <strong>boucle en testant une condition</strong> et <strong>consomme du CPU</strong> inutilement. Utilisée quand l'attente est très courte (spinlocks)."
             },
             {
-                q: "Quelle est la différence entre yield() et une vraie attente passive ?",
-                r: "<code>yield()</code> rend le CPU mais le processus reste <strong>prêt à s'exécuter</strong> (READY). En attente passive, le processus passe en état <strong>WAITING</strong> et n'est plus dans la file d'attente. Il sera réveillé uniquement quand l'événement attendu se produit."
+                q: "D'après cette diapo, que fait yield() dans l'attente semi-active ?",
+                r: "Boucle avec <code>yield()</code> qui <strong>rend le CPU volontairement</strong>. Mieux que l'attente active, mais toujours du polling."
+            },
+            {
+                q: "Selon cette diapo, qu'est-ce que l'attente passive ?",
+                r: "Le processus est <strong>bloqué</strong> (état WAITING). Le noyau le réveille quand l'événement arrive. <strong>Optimal</strong> : aucun CPU consommé pendant l'attente."
             }
         ]
     },
@@ -53,12 +57,24 @@ const section6Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre un pipe et de la mémoire partagée ?",
-                r: "Un <strong>pipe</strong> est un flux : les données sont lues dans l'ordre d'écriture, puis disparaissent. La <strong>mémoire partagée</strong> est une zone où tous les processus voient les mêmes données en temps réel. Le pipe est plus simple mais impose un ordre, la mémoire partagée est plus flexible mais nécessite une synchronisation explicite."
+                q: "Que signifie IPC selon cette diapo ?",
+                r: "<strong>Inter-Process Communication</strong> : mécanismes pour que les processus communiquent."
             },
             {
-                q: "Qu'est-ce qu'un signal Unix ?",
-                r: "C'est une <strong>notification asynchrone</strong> envoyée à un processus. Exemples : <strong>SIGKILL</strong> (tue immédiatement), <strong>SIGTERM</strong> (demande de terminer proprement), <strong>SIGINT</strong> (Ctrl+C). Le processus peut définir un handler pour certains signaux, sauf SIGKILL."
+                q: "Citez quatre mécanismes d'IPC mentionnés dans cette diapo.",
+                r: "1) <strong>Pipes</strong> : flux unidirectionnel, 2) <strong>Mémoire partagée</strong>, 3) <strong>Signaux</strong> : notifications asynchrones, 4) <strong>Sockets</strong>."
+            },
+            {
+                q: "Selon cette diapo, que permet un pipe ?",
+                r: "Un flux <strong>unidirectionnel entre processus</strong> (ex: <code>ls | grep</code>)."
+            },
+            {
+                q: "Citez deux exemples de signaux mentionnés dans cette diapo.",
+                r: "<strong>SIGKILL, SIGTERM, SIGINT</strong>."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "L'IPC nécessite souvent de la <strong>synchronisation</strong> pour éviter les race conditions."
             }
         ]
     },
@@ -68,12 +84,7 @@ const section6Data = [
         resume: `
             <p><em>Diapo de titre de la section sur l'ordonnancement</em></p>
         `,
-        questions: [
-            {
-                q: "Qu'est-ce que l'ordonnancement ?",
-                r: "C'est le mécanisme qui décide <strong>quel processus</strong> s'exécute sur <strong>quel CPU</strong> et <strong>pendant combien de temps</strong>. L'ordonnanceur (scheduler) fait ces choix selon une politique définie, en cherchant à optimiser différents critères (équité, latence, débit...)."
-            }
-        ]
+        questions: []
     },
     {
         id: 54,
@@ -91,12 +102,12 @@ const section6Data = [
         `,
         questions: [
             {
-                q: "Pourquoi ne peut-on pas optimiser tous les critères d'ordonnancement ?",
-                r: "Ces critères sont <strong>contradictoires</strong>. Par exemple, maximiser le débit favorise les longues tâches (moins de changements de contexte), mais dégrade le temps de réponse des tâches interactives. L'équité parfaite peut réduire l'efficacité globale. Il faut choisir des compromis."
+                q: "Citez trois objectifs d'ordonnancement mentionnés dans cette diapo.",
+                r: "1) <strong>Équité</strong> : chaque processus doit avoir du temps CPU, 2) <strong>Efficacité</strong> : maximiser l'utilisation du CPU, 3) <strong>Temps de réponse</strong> : minimiser la latence."
             },
             {
-                q: "Quelle différence entre débit et temps de réponse ?",
-                r: "Le <strong>débit</strong> (throughput) = nombre de tâches terminées par seconde. Le <strong>temps de réponse</strong> = délai entre une requête et le début de son traitement. Un serveur batch optimise le débit, un desktop optimise le temps de réponse pour l'interactivité."
+                q: "Selon cette diapo, peut-on optimiser tous les critères simultanément ?",
+                r: "<strong>Impossible</strong> d'optimiser tous les critères simultanément. Il faut faire des compromis selon le contexte (serveur, desktop, temps réel)."
             }
         ]
     },
@@ -120,12 +131,12 @@ const section6Data = [
         `,
         questions: [
             {
-                q: "Pourquoi le changement de contexte a-t-il un coût ?",
-                r: "Coût <strong>direct</strong> : sauvegarde/restauration des registres (~1-10 µs). Coût <strong>indirect</strong> (souvent plus important) : les caches CPU contiennent les données de l'ancien processus → <strong>cache misses</strong> au début de l'exécution du nouveau processus. La TLB doit aussi être invalidée."
+                q: "Selon cette diapo, que faut-il sauvegarder lors d'un changement de contexte ?",
+                r: "1) Tous les <strong>registres CPU</strong> (PC, SP, registres généraux), 2) L'état de la <strong>FPU/SIMD</strong>, 3) Le <strong>pointeur vers la table des pages</strong> (CR3 sur x86)."
             },
             {
-                q: "Que contient le contexte d'un processus ?",
-                r: "Le <strong>contexte</strong> = tout ce qu'il faut pour reprendre l'exécution : <strong>registres généraux</strong>, <strong>Program Counter</strong> (où on en était), <strong>Stack Pointer</strong>, <strong>flags</strong>, état de la FPU, et le <strong>CR3</strong> (pointeur vers la table des pages pour la mémoire virtuelle)."
+                q: "D'après cette diapo, quel est le coût d'un changement de contexte ?",
+                r: "Un changement de contexte coûte environ <strong>1-10 µs</strong> + invalidation des caches."
             }
         ]
     },
@@ -145,8 +156,8 @@ const section6Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que le PCB (Process Control Block) ?",
-                r: "Le <strong>PCB</strong> est une structure de données du noyau qui contient toutes les informations sur un processus : son <strong>état</strong> (running, ready, waiting), son <strong>contexte</strong> sauvegardé, son <strong>PID</strong>, ses <strong>fichiers ouverts</strong>, ses <strong>pages mémoire</strong>, etc. Un PCB par processus."
+                q: "Citez les cinq étapes du context switch selon cette diapo.",
+                r: "1) <strong>Interruption</strong> (timer, syscall, I/O), 2) Sauvegarde du contexte dans le PCB, 3) L'ordonnanceur choisit le prochain processus, 4) Restauration du contexte depuis le PCB, 5) Reprise de l'exécution."
             }
         ]
     },
@@ -164,8 +175,8 @@ const section6Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre l'ordonnanceur court terme et long terme ?",
-                r: "L'ordonnanceur <strong>court terme</strong> (ou CPU scheduler) décide à chaque instant quel processus prêt obtient le CPU (exécuté très souvent). L'ordonnanceur <strong>long terme</strong> décide quels processus sont admis dans le système (contrôle la charge globale, moins fréquent)."
+                q: "Selon cette diapo, quels sont les deux niveaux d'ordonnanceur ?",
+                r: "1) <strong>Ordonnanceur à court terme</strong> : choisit le prochain processus à exécuter (très fréquent), 2) <strong>Ordonnanceur à long terme</strong> : contrôle le degré de multiprogrammation (admission des processus)."
             }
         ]
     },
@@ -189,12 +200,20 @@ const section6Data = [
         `,
         questions: [
             {
-                q: "Pourquoi l'ordonnancement coopératif a-t-il été abandonné ?",
-                r: "Il suppose que les programmes sont <strong>bien écrits</strong> et <strong>non malveillants</strong>. Un seul programme bugué ou malveillant peut bloquer tout le système. Inacceptable pour un OS multi-utilisateurs ou un système devant rester réactif."
+                q: "Selon cette diapo, qu'est-ce que l'ordonnancement coopératif ?",
+                r: "Le processus garde le CPU <strong>jusqu'à ce qu'il le rende volontairement</strong>. Se produit lors d'un appel système bloquant ou d'un yield()."
             },
             {
-                q: "Quand un processus rend-il le CPU en mode coopératif ?",
-                r: "Lors d'un <strong>appel système bloquant</strong> (read sur un fichier, attente réseau) ou d'un appel explicite à <code>yield()</code>. Si le processus fait uniquement du calcul sans jamais appeler le système, il garde le CPU indéfiniment."
+                q: "Citez deux systèmes qui utilisaient l'ordonnancement coopératif selon cette diapo.",
+                r: "<strong>Windows 3.1</strong>, <strong>Mac OS classic</strong>."
+            },
+            {
+                q: "Quel est le problème principal de l'ordonnancement coopératif selon cette diapo ?",
+                r: "Un processus en boucle infinie <strong>bloque tout le système</strong>. Pas d'équité : un processus égoïste peut monopoliser le CPU."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "<strong>Abandonné</strong> sur les OS modernes sauf cas très spécifiques (certains systèmes embarqués)."
             }
         ]
     },
@@ -218,12 +237,16 @@ const section6Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que la préemption ?",
-                r: "C'est la capacité du noyau à <strong>interrompre un processus</strong> en cours d'exécution pour donner le CPU à un autre, <strong>sans que le processus ne le demande</strong>. Cela garantit que l'OS garde toujours le contrôle, même face à des programmes malveillants ou buggés."
+                q: "Selon cette diapo, qu'est-ce que l'ordonnancement préemptif ?",
+                r: "Le noyau peut <strong>retirer le CPU</strong> à un processus à tout moment, même si le processus ne le veut pas. Garanti par une <strong>interruption matérielle</strong> (timer)."
             },
             {
-                q: "Comment le noyau peut-il reprendre le contrôle d'un processus qui ne coopère pas ?",
-                r: "Grâce à l'<strong>interruption timer</strong>. Le matériel génère une interruption à intervalles réguliers (ex: toutes les 1-4 ms). Cette interruption force le CPU à exécuter le code du noyau, qui peut alors décider de changer de processus."
+                q: "Citez deux avantages de la préemption listés dans cette diapo.",
+                r: "1) Un processus en boucle infinie <strong>ne bloque plus le système</strong>, 2) <strong>Équité</strong> : tous les processus obtiennent du temps CPU."
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Tous les OS modernes (<strong>Linux, Windows, macOS</strong>) utilisent la préemption."
             }
         ]
     },
@@ -247,12 +270,16 @@ const section6Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que le quantum (time slice) ?",
-                r: "C'est la <strong>durée maximale</strong> pendant laquelle un processus peut s'exécuter avant d'être préempté. Si le quantum est de 10ms, après 10ms le timer interrompt et l'ordonnanceur peut choisir un autre processus. Le quantum est un paramètre clé de l'ordonnanceur."
+                q: "Selon cette diapo, à quelle fréquence se déclenche l'interruption timer sous Linux ?",
+                r: "À intervalle régulier : environ <strong>1-4 ms</strong> sous Linux."
             },
             {
-                q: "Comment choisir la durée du quantum ?",
-                r: "<strong>Quantum court</strong> (1-10ms) : bonne réactivité, temps de réponse faible, mais beaucoup de changements de contexte (overhead). <strong>Quantum long</strong> (50-100ms) : moins d'overhead, meilleur débit, mais latence élevée pour les tâches interactives. Linux utilise un quantum variable selon la charge."
+                q: "D'après cette diapo, qu'est-ce que le quantum (time slice) ?",
+                r: "La <strong>durée maximale</strong> qu'un processus peut garder le CPU. Typiquement <strong>4-100 ms</strong> selon les systèmes."
+            },
+            {
+                q: "Selon cette diapo, quel est le compromis du quantum ?",
+                r: "Quantum <strong>court</strong> = réactif mais overhead. Quantum <strong>long</strong> = efficace mais latence."
             }
         ]
     }

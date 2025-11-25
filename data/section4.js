@@ -8,12 +8,7 @@ const section4Data = [
         resume: `
             <p><em>Diapo de titre de la section sur l'exécution processeur</em></p>
         `,
-        questions: [
-            {
-                q: "Que doit gérer l'OS concernant l'exécution processeur ?",
-                r: "L'OS doit gérer : 1) Les <strong>modes d'exécution</strong> (privilégié/utilisateur). 2) Les <strong>interruptions</strong> et exceptions. 3) Les <strong>appels système</strong>. 4) Le <strong>changement de contexte</strong> entre processus. Le CPU fournit les mécanismes matériels, l'OS les utilise."
-            }
-        ]
+        questions: []
     },
     {
         id: 32,
@@ -35,12 +30,20 @@ const section4Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que le contexte d'exécution d'un processus ?",
-                r: "C'est l'<strong>ensemble des informations</strong> nécessaires pour reprendre l'exécution d'un processus : valeur de tous les registres (PC, SP, données), état de la FPU, table des pages mémoire. Sauvegardé lors d'un changement de contexte."
+                q: "Combien d'instructions peut exécuter un pipeline selon cette diapo ?",
+                r: "<strong>Une instruction par cycle</strong> par pipeline."
             },
             {
-                q: "Qu'est-ce que le Program Counter ?",
-                r: "Le <strong>Program Counter (PC)</strong>, aussi appelé Instruction Pointer (IP), contient l'<strong>adresse de la prochaine instruction</strong> à exécuter. Après chaque instruction, il est incrémenté (sauf pour les sauts/branchements)."
+                q: "Selon cette diapo, pourquoi la fréquence du processeur varie-t-elle ?",
+                r: "La fréquence varie selon la <strong>charge</strong> et la <strong>température</strong>."
+            },
+            {
+                q: "Citez trois types de registres qui composent le contexte d'exécution selon cette diapo.",
+                r: "1) <strong>Registres de données</strong> : les valeurs manipulées. 2) <strong>Registres d'adresses</strong> : pile, tas, pointeur d'instruction. 3) <strong>Program Counter (PC)</strong> : adresse de la prochaine instruction."
+            },
+            {
+                q: "Que contient le Program Counter selon cette diapo ?",
+                r: "L'<strong>adresse de la prochaine instruction</strong> à exécuter."
             }
         ]
     },
@@ -65,12 +68,16 @@ const section4Data = [
         `,
         questions: [
             {
-                q: "Pourquoi les modes d'exécution sont-ils implémentés en matériel ?",
-                r: "Pour que la <strong>protection soit incontournable</strong>. Si c'était logiciel, un programme malveillant pourrait le contourner. Le processeur vérifie à chaque instruction si elle est autorisée dans le mode courant. Impossible à bypasser."
+                q: "Citez deux opérations que le mode noyau (Ring 0) peut faire selon cette diapo.",
+                r: "Le mode noyau peut <strong>accéder à tout le matériel</strong> et <strong>modifier la table des pages</strong> (gestion mémoire)."
             },
             {
-                q: "Quelles opérations sont interdites en mode utilisateur ?",
-                r: "En Ring 3 : <strong>accès aux ports I/O</strong> (instructions IN/OUT), <strong>modification de la table des pages</strong> (registre CR3), <strong>désactivation des interruptions</strong> (CLI), <strong>halt du CPU</strong> (HLT), accès à certaines zones mémoire (noyau)."
+                q: "Selon cette diapo, comment le mode utilisateur accède-t-il au matériel ?",
+                r: "Le mode utilisateur doit passer par des <strong>appels système</strong>, car il n'a pas d'accès direct au matériel."
+            },
+            {
+                q: "D'après cette diapo, qu'est-ce qui empêche l'utilisateur d'accéder à ce qui est interdit ?",
+                r: "C'est le <strong>MATÉRIEL</strong> qui empêche l'utilisateur d'accéder à ce qui est interdit."
             }
         ]
     },
@@ -93,12 +100,16 @@ const section4Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre exception et interruption ?",
-                r: "<strong>Exception</strong> : générée par le CPU suite à une instruction (division par zéro, page fault, syscall). <strong>Synchrone</strong>. <strong>Interruption</strong> : générée par un périphérique externe (clavier, disque, timer). <strong>Asynchrone</strong>, peut arriver n'importe quand."
+                q: "Selon cette diapo, quelle est la différence clé entre exception et interruption ?",
+                r: "<strong>Exception</strong> : causée par le CPU lui-même (erreur, instruction spéciale). <strong>Interruption</strong> : causée par un périphérique externe."
             },
             {
-                q: "Qu'est-ce que la table des vecteurs d'interruption ?",
-                r: "C'est un tableau en mémoire où chaque entrée contient l'<strong>adresse du traitant</strong> pour un type d'interruption/exception. Configurée par le noyau au boot. Quand l'interruption N arrive, le CPU saute à l'adresse stockée à l'index N."
+                q: "D'après cette diapo, dans quel mode s'exécute le traitant d'une interruption ?",
+                r: "Le traitant s'exécute en <strong>mode privilégié</strong>."
+            },
+            {
+                q: "Que se passe-t-il après le traitement d'une interruption selon cette diapo ?",
+                r: "Après traitement, il y a <strong>retour à l'exécution normale</strong>."
             }
         ]
     },
@@ -122,12 +133,12 @@ const section4Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce qu'un Page Fault et pourquoi ce n'est pas toujours une erreur ?",
-                r: "Un <strong>page fault</strong> se produit quand on accède à une page non présente en RAM. Ce n'est pas toujours une erreur : la page peut être sur le <strong>disque (swap)</strong> ou jamais allouée (<strong>lazy allocation</strong>). Le noyau charge la page et reprend l'exécution. C'est une erreur seulement si l'adresse est vraiment invalide."
+                q: "Citez trois exemples d'exceptions mentionnés dans cette diapo.",
+                r: "1) <strong>Division par zéro</strong>, 2) <strong>Page fault</strong> : accès à une page non mappée, 3) <strong>Segmentation fault</strong> : accès mémoire interdit."
             },
             {
-                q: "Que se passe-t-il lors d'une segmentation fault ?",
-                r: "Le processus a tenté d'accéder à une adresse <strong>non autorisée</strong> (hors de son espace, ou en écriture sur une zone read-only). Le noyau ne peut pas corriger → il envoie le signal <strong>SIGSEGV</strong> au processus, qui le tue par défaut (avec un core dump si activé)."
+                q: "Selon cette diapo, que se passe-t-il si le traitant échoue à corriger l'exception ?",
+                r: "Si le traitant échoue, <strong>le processus est tué</strong>."
             }
         ]
     },
@@ -153,12 +164,16 @@ const section4Data = [
         `,
         questions: [
             {
-                q: "Pourquoi l'interruption timer est-elle si importante ?",
-                r: "Elle permet l'<strong>ordonnancement préemptif</strong>. Sans elle, un processus qui ne fait pas d'appel système pourrait garder le CPU indéfiniment. Le timer interrompt régulièrement (~1ms) pour que le noyau puisse décider de changer de processus."
+                q: "Citez trois exemples d'IRQ mentionnés dans cette diapo.",
+                r: "1) Appui sur une touche <strong>clavier</strong>, 2) <strong>Paquet réseau</strong> reçu, 3) <strong>Disque</strong> a fini une opération."
             },
             {
-                q: "Comment le CPU sait-il quel périphérique a généré une interruption ?",
-                r: "Chaque périphérique a un <strong>numéro d'IRQ</strong> attribué. Le contrôleur d'interruptions (APIC) indique au CPU le numéro de l'IRQ. Le CPU consulte la table des vecteurs pour trouver le bon traitant (dans le pilote du périphérique)."
+                q: "Selon cette diapo, pourquoi l'interruption timer est-elle cruciale ?",
+                r: "Elle permet au noyau de <strong>reprendre le contrôle régulièrement</strong> (ordonnancement préemptif)."
+            },
+            {
+                q: "Quelle est la fréquence approximative de l'interruption timer sous Linux selon cette diapo ?",
+                r: "Environ <strong>1ms</strong> (~1 milliseconde)."
             }
         ]
     },
@@ -182,12 +197,16 @@ const section4Data = [
         `,
         questions: [
             {
-                q: "Pourquoi les appels système sont-ils nécessaires ?",
-                r: "Les programmes utilisateur n'ont <strong>pas accès au matériel</strong> directement (mode utilisateur). Pour lire un fichier, envoyer un paquet réseau, ou créer un processus, ils doivent demander au noyau qui a les privilèges. L'appel système est cette demande."
+                q: "Citez trois exemples d'appels système mentionnés dans cette diapo.",
+                r: "<code>open()</code>, <code>read()</code>, <code>write()</code>, <code>fork()</code>."
             },
             {
-                q: "Quelle est la différence entre un appel système et un appel de fonction ?",
-                r: "Un appel de fonction reste en <strong>mode utilisateur</strong>. Un appel système provoque un <strong>changement de mode</strong> (user → kernel), une sauvegarde du contexte, l'exécution de code noyau, puis le retour. C'est ~100-1000x plus lent qu'un appel de fonction."
+                q: "Selon cette diapo, pourquoi passe-t-on par le noyau pour accéder au matériel ?",
+                r: "Pour accéder au <strong>matériel</strong> (disque, réseau), créer des <strong>processus</strong>, allouer de la <strong>mémoire</strong>, ou communiquer avec d'autres <strong>processus</strong>."
+            },
+            {
+                q: "D'après cette diapo, qu'est-ce qu'un appel système provoque ?",
+                r: "Il provoque le <strong>passage en mode privilégié</strong>."
             }
         ]
     },
@@ -214,16 +233,16 @@ const section4Data = [
         `,
         questions: [
             {
-                q: "Comment fonctionne l'instruction syscall ?",
-                r: "L'instruction <code>syscall</code> (x86-64) fait : 1) Sauvegarde du PC et flags. 2) Passage en Ring 0. 3) Saut à une adresse fixe (configurée dans un MSR). Le noyau utilise le numéro dans %rax pour indexer sa table de syscalls et appeler la bonne fonction."
+                q: "Selon cette diapo, dans quel registre place-t-on le numéro du syscall sur x86 ?",
+                r: "Dans le registre <code>%eax</code>."
             },
             {
-                q: "Pourquoi le noyau vérifie-t-il les paramètres d'un syscall ?",
-                r: "Le programme pourrait être <strong>malveillant ou bugué</strong>. Le noyau vérifie : 1) Les <strong>pointeurs</strong> sont-ils dans l'espace utilisateur ? 2) L'utilisateur a-t-il les <strong>droits</strong> ? 3) Les valeurs sont-elles <strong>valides</strong> ? Sans ces vérifications, un processus pourrait faire crasher le noyau."
+                q: "D'après cette diapo, que fait le noyau après avoir reçu un syscall ?",
+                r: "Le noyau <strong>vérifie les paramètres et droits</strong>, puis exécute le code du syscall."
             },
             {
-                q: "À quoi sert strace ?",
-                r: "<code>strace</code> affiche tous les <strong>appels système</strong> faits par un programme : quel syscall, avec quels arguments, quel résultat. Très utile pour <strong>débugger</strong> : voir pourquoi un fichier ne s'ouvre pas, comprendre ce que fait un programme, détecter des problèmes de permissions."
+                q: "Citez un outil mentionné dans cette diapo pour tracer les appels système.",
+                r: "<code>strace</code> permet de tracer les appels système d'un programme."
             }
         ]
     },
@@ -233,12 +252,7 @@ const section4Data = [
         resume: `
             <p><em>Diapo de transition vers la section Processus et Threads</em></p>
         `,
-        questions: [
-            {
-                q: "Quelle est la relation entre processus et threads ?",
-                r: "Un <strong>processus</strong> est un conteneur : espace mémoire, fichiers ouverts, PID. Un <strong>thread</strong> est un fil d'exécution dans ce conteneur. Un processus a au minimum 1 thread. Plusieurs threads partagent la mémoire du processus mais ont chacun leur pile."
-            }
-        ]
+        questions: []
     },
     {
         id: 40,
@@ -259,12 +273,12 @@ const section4Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre un programme et un processus ?",
-                r: "Le <strong>programme</strong> est un fichier sur le disque (code compilé). Le <strong>processus</strong> est ce programme en cours d'exécution : chargé en mémoire, avec un PID, des fichiers ouverts, un état. Un même programme peut donner plusieurs processus indépendants."
+                q: "Selon cette diapo, quelle est la différence entre un programme et un processus ?",
+                r: "<strong>Programme</strong> : fichier statique sur disque (exécutable). <strong>Processus</strong> : programme chargé en mémoire, avec son contexte."
             },
             {
-                q: "Plusieurs fenêtres d'une application = plusieurs processus ?",
-                r: "Pas forcément ! Beaucoup d'applications modernes sont <strong>multi-threadées</strong> : un seul processus avec plusieurs threads (et fenêtres). Mais certaines (comme Chrome) utilisent un <strong>processus par onglet</strong> pour l'isolation. Ça dépend de l'architecture de l'application."
+                q: "D'après cette diapo, est-ce qu'un même programme peut donner plusieurs processus ?",
+                r: "Oui, plusieurs processus peuvent exécuter le <strong>même programme</strong>."
             }
         ]
     }

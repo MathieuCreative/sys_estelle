@@ -22,12 +22,12 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Pourquoi chaque processus croit-il être seul sur la machine ?",
-                r: "Grâce à deux mécanismes : 1) <strong>Mémoire virtuelle</strong> : chaque processus a son propre espace d'adressage (0 à 2^64). 2) <strong>Ordonnancement</strong> : le CPU alterne entre processus si vite qu'ils semblent tourner en parallèle. L'OS maintient cette illusion."
+                q: "Citez les trois rôles principaux du processus listés dans cette diapo.",
+                r: "1) <strong>Multi-tâches</strong> : exécuter plusieurs programmes \"en même temps\". 2) <strong>Unité de protection</strong> : isolation mémoire, droits d'accès. 3) <strong>Unité d'allocation</strong> : CPU, mémoire, fichiers attribués au processus."
             },
             {
-                q: "Qu'est-ce que l'isolation des processus apporte ?",
-                r: "<strong>Sécurité</strong> : un processus ne peut pas lire les données d'un autre. <strong>Stabilité</strong> : si un processus plante, les autres continuent. <strong>Simplicité</strong> : le programmeur n'a pas à se soucier des autres programmes."
+                q: "Selon cette diapo, de quoi chaque processus a-t-il l'impression ?",
+                r: "Chaque processus a l'impression d'<strong>être seul</strong> sur la machine : son propre espace mémoire, son propre CPU (virtuel), ses propres fichiers ouverts."
             }
         ]
     },
@@ -51,16 +51,20 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre la pile et le tas ?",
-                r: "<strong>Pile (stack)</strong> : allocation automatique, variables locales, appels de fonctions. Rapide mais taille limitée. <strong>Tas (heap)</strong> : allocation manuelle (<code>malloc/free</code>), durée de vie contrôlée par le programmeur. Plus lent mais flexible."
+                q: "Selon cette diapo, quelles sont les cinq parties de l'espace mémoire d'un processus (de bas en haut) ?",
+                r: "1) <strong>Zone de code</strong> (text), 2) <strong>Zone de données</strong>, 3) <strong>Tas (heap)</strong>, 4) <strong>Zone libre</strong>, 5) <strong>Pile (stack)</strong>."
             },
             {
-                q: "Pourquoi la pile et le tas grandissent-ils en sens opposé ?",
-                r: "Pour <strong>maximiser l'espace disponible</strong>. La pile grandit vers le bas, le tas vers le haut. Ils se partagent l'espace libre entre eux. Si l'un a besoin de plus, il peut utiliser l'espace libre sans empiéter sur l'autre (tant qu'ils ne se rencontrent pas)."
+                q: "D'après cette diapo, dans quel sens grandit le tas ?",
+                r: "Le tas grandit vers le <strong>haut</strong>."
             },
             {
-                q: "Qu'est-ce qu'un descripteur de fichier ?",
-                r: "Un <strong>entier</strong> qui identifie un fichier ouvert pour le processus. 0=stdin, 1=stdout, 2=stderr par convention. Quand on ouvre un fichier, le noyau retourne le prochain numéro disponible. Ce numéro sert pour read(), write(), close()."
+                q: "Selon cette diapo, la zone de code est-elle modifiable ?",
+                r: "Non, elle est en <strong>lecture seule</strong>."
+            },
+            {
+                q: "Citez les trois descripteurs de fichiers standards mentionnés dans cette diapo.",
+                r: "<strong>0=stdin</strong>, <strong>1=stdout</strong>, <strong>2=stderr</strong>."
             }
         ]
     },
@@ -84,12 +88,12 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que le PCB (Process Control Block) ?",
-                r: "C'est la <strong>structure de données du noyau</strong> qui contient toutes les informations sur un processus : PID, état, contexte CPU, mémoire, fichiers ouverts, statistiques. Le noyau maintient un PCB pour chaque processus. Sous Linux : <code>task_struct</code>."
+                q: "Citez cinq éléments contenus dans le PCB selon cette diapo.",
+                r: "1) <strong>PID</strong>, 2) <strong>État</strong>, 3) <strong>Priorité</strong>, 4) <strong>Program Counter</strong>, 5) <strong>Registres sauvegardés</strong>."
             },
             {
-                q: "Pourquoi le noyau sauvegarde-t-il les registres dans le PCB ?",
-                r: "Pour le <strong>changement de contexte</strong>. Quand le noyau passe à un autre processus, il doit sauvegarder les registres du processus actuel (dans son PCB) et restaurer ceux du nouveau. Sinon, le processus perdrait son état en reprenant."
+                q: "Selon cette diapo, comment s'appelle le PCB sous Linux ?",
+                r: "Sous Linux, c'est la structure <code>task_struct</code>."
             }
         ]
     },
@@ -117,12 +121,12 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Pourquoi les processus forment-ils un arbre ?",
-                r: "Chaque processus est créé par un autre (via <code>fork()</code>). Le créateur devient le <strong>parent</strong>. Le premier processus (init, PID 1) est créé par le noyau. Cela forme une hiérarchie utilisée pour : signaux, héritage des fichiers, gestion des zombies."
+                q: "Selon cette diapo, qui adopte un processus orphelin ?",
+                r: "L'enfant est <strong>adopté par init</strong> (PID 1)."
             },
             {
-                q: "Que se passe-t-il quand un processus parent meurt ?",
-                r: "Ses enfants deviennent <strong>orphelins</strong>. Le noyau les <strong>réattache à init</strong> (PID 1). Init devient leur nouveau parent et pourra récupérer leur code de retour quand ils termineront (évite les zombies permanents)."
+                q: "Citez deux commandes pour visualiser l'arbre des processus selon cette diapo.",
+                r: "<code>pstree</code> et <code>htop</code> + F5 (vue arborescente)."
             }
         ]
     },
@@ -151,16 +155,16 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Pourquoi fork() retourne-t-il des valeurs différentes au parent et à l'enfant ?",
-                r: "C'est le seul moyen de <strong>distinguer</strong> parent et enfant après le fork. Le code est identique, donc on teste la valeur de retour : <code>if (fork() == 0) { /* enfant */ } else { /* parent */ }</code>. Le parent reçoit le PID de l'enfant pour pouvoir le suivre."
+                q: "Selon cette diapo, que retourne fork() au parent et à l'enfant ?",
+                r: "Le parent reçoit le <strong>PID de l'enfant</strong>, l'enfant reçoit <strong>0</strong>."
             },
             {
-                q: "Pourquoi séparer fork() et exec() ?",
-                r: "Pour permettre des opérations <strong>entre les deux</strong> : rediriger stdin/stdout, changer de répertoire, modifier les variables d'environnement... Le parent peut configurer l'enfant avant qu'il n'exécute le nouveau programme. C'est le <strong>modèle Unix</strong>."
+                q: "D'après cette diapo, que fait exec() ?",
+                r: "<code>exec()</code> <strong>remplace</strong> le programme du processus par un nouvel exécutable (le PID reste le même)."
             },
             {
-                q: "La mémoire est-elle vraiment copiée lors d'un fork() ?",
-                r: "Non, grâce au <strong>Copy-On-Write (COW)</strong>. Au fork, parent et enfant partagent les mêmes pages mémoire (en lecture seule). Une copie n'est faite que si l'un écrit. Cela rend fork() très rapide même avec beaucoup de mémoire."
+                q: "Selon cette diapo, quel est le pattern classique pour lancer un nouveau programme ?",
+                r: "<code>fork()</code> + <code>exec()</code>."
             }
         ]
     },
@@ -189,12 +193,16 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence fondamentale entre processus et thread ?",
-                r: "<strong>Processus</strong> : espace mémoire isolé, création coûteuse, communication difficile (IPC). <strong>Thread</strong> : partage la mémoire du processus, création légère, communication simple (variables partagées). Un processus contient un ou plusieurs threads."
+                q: "Citez trois éléments que les threads partagent selon cette diapo.",
+                r: "1) Espace mémoire (code, données, tas), 2) Fichiers ouverts, 3) Signaux."
             },
             {
-                q: "Pourquoi chaque thread a-t-il sa propre pile ?",
-                r: "La pile stocke les <strong>variables locales</strong> et les <strong>adresses de retour</strong> des fonctions. Chaque thread exécute potentiellement des fonctions différentes, donc a besoin de sa propre pile pour ne pas interférer avec les autres threads."
+                q: "Citez trois éléments que chaque thread a de propre selon cette diapo.",
+                r: "1) Sa <strong>pile</strong> (stack), 2) Ses <strong>registres</strong>, 3) Son <strong>Program Counter</strong>."
+            },
+            {
+                q: "Citez une fonction de création de thread mentionnée dans cette diapo.",
+                r: "<code>pthread_create()</code> ou <code>clone()</code> ou <code>thrd_create()</code> (C11)."
             }
         ]
     },
@@ -222,12 +230,16 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Quand utiliser des processus vs des threads ?",
-                r: "<strong>Processus</strong> : quand on veut l'<strong>isolation</strong> (sécurité, stabilité), ou exécuter un programme différent. <strong>Threads</strong> : quand on veut le <strong>parallélisme</strong> dans un même programme, avec partage de données. Exemple : serveur web = souvent threads, navigateur = processus par onglet (isolation)."
+                q: "Citez trois avantages des threads listés dans cette diapo.",
+                r: "1) <strong>Parallélisme réel</strong> : un thread par cœur, 2) <strong>Création rapide</strong> : pas de copie mémoire, 3) <strong>Communication facile</strong> : mémoire partagée."
             },
             {
-                q: "Qu'est-ce que le modèle 1:1 pour les threads ?",
-                r: "Chaque <strong>thread utilisateur</strong> correspond à un <strong>thread noyau</strong>. Le noyau voit et ordonnance chaque thread individuellement. Alternative : modèle N:1 (threads gérés en espace utilisateur, invisibles au noyau) ou M:N (hybride)."
+                q: "Citez deux inconvénients des threads listés dans cette diapo.",
+                r: "1) <strong>Synchronisation complexe</strong> : race conditions, deadlocks, 2) <strong>Pas d'isolation</strong> : un bug affecte tout le processus."
+            },
+            {
+                q: "Selon cette diapo, quel modèle de threads utilise Linux ?",
+                r: "Linux utilise le modèle <strong>1:1</strong> (un thread noyau = un thread utilisateur)."
             }
         ]
     },
@@ -250,12 +262,16 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Que se passe-t-il si on ne fait pas pthread_join() ?",
-                r: "Le thread termine mais ses ressources ne sont pas libérées (similaire à un zombie). Pour éviter ça : soit faire <code>pthread_join()</code>, soit créer le thread en mode <strong>detached</strong> (<code>pthread_detach()</code>) pour qu'il se nettoie automatiquement."
+                q: "Citez deux façons de terminer un thread selon cette diapo.",
+                r: "1) <code>pthread_exit()</code> : termine le thread appelant, 2) Retour de la fonction du thread."
             },
             {
-                q: "Un thread peut-il terminer le processus entier ?",
-                r: "Oui. Si un thread appelle <code>exit()</code> (et non <code>pthread_exit()</code>), <strong>tout le processus</strong> termine. Aussi, si le thread main() retourne, le processus termine. Enfin, le dernier thread vivant qui termine provoque la fin du processus."
+                q: "Selon cette diapo, que fait pthread_join() ?",
+                r: "<code>pthread_join()</code> attend la fin d'un thread et récupère sa valeur de retour (similaire à <code>wait()</code> pour les processus)."
+            },
+            {
+                q: "D'après cette diapo, que se passe-t-il quand le dernier thread termine ?",
+                r: "Le dernier thread qui termine appelle implicitement <code>exit()</code> et termine le <strong>processus entier</strong>."
             }
         ]
     },
@@ -284,12 +300,16 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce qu'un processus zombie ?",
-                r: "Un processus qui a <strong>terminé</strong> mais dont le parent n'a pas encore récupéré le code de retour avec <code>wait()</code>. Il ne consomme plus de CPU/mémoire mais garde une entrée dans la table des processus. Trop de zombies = plus de PIDs disponibles."
+                q: "Citez trois façons de terminer un processus selon cette diapo.",
+                r: "1) <code>return</code> de <code>main()</code>, 2) <code>exit()</code>, 3) Signal fatal (SIGKILL, SIGSEGV...)."
             },
             {
-                q: "Comment éviter les zombies ?",
-                r: "1) Le parent fait <code>wait()</code> ou <code>waitpid()</code>. 2) Le parent ignore <code>SIGCHLD</code> (les enfants sont auto-reaped). 3) Double fork : l'enfant fork et termine, le petit-enfant est adopté par init qui fait le wait. 4) Utiliser <code>sigaction()</code> avec <code>SA_NOCLDWAIT</code>."
+                q: "Selon cette diapo, qu'est-ce qu'un processus zombie ?",
+                r: "Un processus <strong>terminé</strong> mais <strong>pas encore attendu</strong> par son parent. Il garde une entrée dans la table des processus (pour le code de retour)."
+            },
+            {
+                q: "D'après cette diapo, comment le parent récupère-t-il le code de retour de l'enfant ?",
+                r: "Avec <code>wait()</code> ou <code>waitpid()</code>."
             }
         ]
     },
@@ -315,16 +335,16 @@ const section5Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre Interruptible et Uninterruptible Sleep ?",
-                r: "<strong>Interruptible (S)</strong> : le processus peut être réveillé par un <strong>signal</strong>. Utilisé pour les attentes normales (réseau, terminal). <strong>Uninterruptible (D)</strong> : attente d'I/O critique (disque). Même SIGKILL ne peut pas l'interrompre. Évite la corruption de données."
+                q: "Citez les cinq états principaux d'un processus listés dans cette diapo.",
+                r: "1) <strong>Running (R)</strong>, 2) <strong>Ready (R)</strong>, 3) <strong>Interruptible Sleep (S)</strong>, 4) <strong>Uninterruptible Sleep (D)</strong>, 5) <strong>Zombie (Z)</strong>."
             },
             {
-                q: "Pourquoi un processus peut-il rester bloqué en état D ?",
-                r: "L'état D (Uninterruptible) est utilisé pendant les <strong>I/O disque</strong>. Si le disque ne répond pas (panne, NFS bloqué), le processus reste en D indéfiniment. On ne peut pas le tuer avec kill -9 car il attend une opération atomique. Seul un reboot ou la résolution du problème I/O le débloque."
+                q: "Selon cette diapo, quelle est la différence entre Interruptible Sleep et Uninterruptible Sleep ?",
+                r: "<strong>Interruptible Sleep (S)</strong> : bloqué, en attente d'un événement, peut recevoir des signaux. <strong>Uninterruptible Sleep (D)</strong> : bloqué sur I/O, ne peut pas être interrompu."
             },
             {
-                q: "Comment voir l'état des processus ?",
-                r: "Avec <code>ps aux</code> : colonne STAT. R=Running/Ready, S=Sleeping, D=Disk sleep, Z=Zombie, T=Stopped. Avec <code>top</code> ou <code>htop</code> : colonne S ou STATE. Les suffixes : <=haute priorité, N=basse priorité, l=multi-thread, s=session leader."
+                q: "D'après cette diapo, qui décide de la transition entre Ready et Running ?",
+                r: "C'est la décision de l'<strong>ordonnanceur</strong>."
             }
         ]
     }

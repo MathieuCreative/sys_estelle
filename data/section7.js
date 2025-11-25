@@ -8,12 +8,7 @@ const section7Data = [
         resume: `
             <p><em>Diapo de titre de la section sur les algorithmes d'ordonnancement</em></p>
         `,
-        questions: [
-            {
-                q: "Quels sont les principaux algorithmes d'ordonnancement ?",
-                r: "Les algorithmes classiques sont : <strong>FIFO/FCFS</strong> (premier arrivé, premier servi), <strong>Round-Robin</strong> (tourniquet avec quantum), <strong>Priorités</strong> (fixes ou dynamiques), <strong>SJF</strong> (plus court d'abord), <strong>MLFQ</strong> (files multi-niveaux). Chacun a ses avantages selon le contexte."
-            }
-        ]
+        questions: []
     },
     {
         id: 62,
@@ -34,12 +29,12 @@ const section7Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que l'effet convoi (convoy effect) ?",
-                r: "C'est quand un <strong>processus long</strong> (CPU-bound) s'exécute en premier et fait attendre tous les autres. Même si les processus suivants sont très courts, ils doivent attendre la fin du long processus. Comme des voitures bloquées derrière un camion lent."
+                q: "Citez les trois caractéristiques de FIFO/FCFS mentionnées dans cette diapo.",
+                r: "1) Les processus sont exécutés dans l'<strong>ordre d'arrivée</strong>. 2) Pas de préemption : un processus garde le CPU jusqu'à la fin ou blocage. 3) Très <strong>simple</strong> à implémenter."
             },
             {
-                q: "Quand FIFO est-il acceptable ?",
-                r: "FIFO convient pour les <strong>systèmes batch</strong> où l'ordre d'arrivée est significatif et où les tâches ont des durées similaires. Aussi utilisé comme base dans des algorithmes plus complexes (ex: Round-Robin = FIFO avec préemption)."
+                q: "Citez les trois problèmes de FIFO listés dans cette diapo.",
+                r: "1) <strong>Effet convoi</strong> : un long processus bloque tous les autres. 2) Temps de réponse <strong>très mauvais</strong> pour les petites tâches. 3) Non adapté aux systèmes interactifs."
             }
         ]
     },
@@ -63,12 +58,12 @@ const section7Data = [
         `,
         questions: [
             {
-                q: "Comment Round-Robin garantit-il l'équité ?",
-                r: "Chaque processus prêt obtient exactement un <strong>quantum</strong> avant de céder la place au suivant. Avec N processus et un quantum Q, chaque processus obtient 1/N du CPU et attend au maximum (N-1)*Q avant sa prochaine exécution. C'est mathématiquement équitable."
+                q: "Citez les trois principes de Round-Robin listés dans cette diapo.",
+                r: "1) Chaque processus reçoit un <strong>quantum</strong> de temps CPU. 2) Après le quantum, le processus est <strong>préempté</strong> et remis en fin de file. 3) Équité : tous les processus obtiennent du temps CPU."
             },
             {
-                q: "Quel est l'impact du quantum sur les performances ?",
-                r: "<strong>Quantum court</strong> : beaucoup de context switches → overhead important mais bonne réactivité. <strong>Quantum long</strong> : peu d'overhead mais si un processus calcule pendant tout son quantum, les autres attendent longtemps. Typiquement 10-100ms."
+                q: "Quel est le point clé de cette diapo sur le choix du quantum ?",
+                r: "Le choix du quantum est crucial : trop court = overhead, trop long = mauvaise réactivité."
             }
         ]
     },
@@ -94,12 +89,12 @@ const section7Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que la famine (starvation) en ordonnancement ?",
-                r: "C'est quand un processus de <strong>basse priorité</strong> ne s'exécute jamais car des processus plus prioritaires monopolisent le CPU. Le processus \"meurt de faim\". Problème grave car un processus légitime peut attendre indéfiniment."
+                q: "Citez les deux types de priorités mentionnés dans cette diapo.",
+                r: "<strong>Statiques</strong> : fixées à la création, ne changent pas. <strong>Dynamiques</strong> : ajustées selon le comportement du processus."
             },
             {
-                q: "Comment l'aging résout-il le problème de famine ?",
-                r: "L'<strong>aging</strong> augmente progressivement la priorité d'un processus qui attend. Après un certain temps d'attente, même un processus initialement peu prioritaire devient suffisamment prioritaire pour s'exécuter. Cela garantit que tout processus finira par obtenir du CPU."
+                q: "Quel est le problème majeur et sa solution selon cette diapo ?",
+                r: "<strong>Problème majeur : la famine (starvation)</strong> - un processus de faible priorité peut <strong>ne jamais s'exécuter</strong>. <strong>Solution : vieillissement (aging)</strong> - augmenter la priorité des processus qui attendent longtemps."
             }
         ]
     },
@@ -122,12 +117,12 @@ const section7Data = [
         `,
         questions: [
             {
-                q: "Pourquoi le nice s'appelle-t-il \"nice\" ?",
-                r: "Un processus avec un nice élevé est <strong>\"gentil\"</strong> avec les autres : il leur cède volontairement de la priorité. Un processus avec nice négatif est \"moins gentil\" car il prend plus de ressources. C'est une métaphore de politesse."
+                q: "Quelle est la plage de valeurs et la valeur par défaut du nice selon cette diapo ?",
+                r: "<strong>Nice</strong> : valeur de -20 à +19 qui influence la priorité. Valeur par défaut : <strong>0</strong>."
             },
             {
-                q: "Pourquoi seul root peut-il diminuer le nice ?",
-                r: "Si tout utilisateur pouvait augmenter sa priorité, chacun le ferait et l'équité serait brisée. Permettre uniquement d'<strong>augmenter</strong> le nice (baisser sa priorité) évite les abus. Root peut tout modifier car il est supposé savoir ce qu'il fait."
+                q: "Quel est le point clé de cette diapo sur le nice ?",
+                r: "Seul root peut diminuer le nice (augmenter la priorité)."
             }
         ]
     },
@@ -150,12 +145,12 @@ const section7Data = [
         `,
         questions: [
             {
-                q: "Pourquoi MLFQ favorise-t-il les processus interactifs ?",
-                r: "Les processus <strong>interactifs</strong> font beaucoup d'I/O donc bloquent souvent avant d'épuiser leur quantum. Ils restent dans les files de haute priorité. Les processus <strong>CPU-bound</strong> utilisent tout leur quantum et descendent vers les files de basse priorité."
+                q: "Citez les trois règles typiques de MLFQ listées dans cette diapo.",
+                r: "1) Nouveau processus → file de <strong>haute priorité</strong>. 2) Si utilise tout son quantum → <strong>descend</strong> d'une file (CPU-bound). 3) Si bloque avant la fin → <strong>reste</strong> ou monte (I/O-bound)."
             },
             {
-                q: "Comment MLFQ évite-t-il la famine ?",
-                r: "Périodiquement, tous les processus sont <strong>remontés</strong> dans la file de plus haute priorité (priority boost). Cela garantit que même les processus CPU-bound qui sont descendus tout en bas auront une chance de s'exécuter régulièrement."
+                q: "Quel est le point clé de cette diapo sur MLFQ ?",
+                r: "MLFQ favorise naturellement les processus interactifs (I/O-bound) car ils bloquent souvent."
             }
         ]
     },
@@ -174,12 +169,12 @@ const section7Data = [
         `,
         questions: [
             {
-                q: "Qu'est-ce que le CFS (Completely Fair Scheduler) ?",
-                r: "C'est l'ordonnanceur par défaut de Linux depuis 2007. Il vise une <strong>équité parfaite</strong> : chaque processus devrait avoir exactement sa part de CPU. Il utilise un arbre rouge-noir trié par <strong>virtual runtime</strong> (temps CPU virtuel pondéré par la priorité)."
+                q: "Citez les trois options de structure de données listées dans cette diapo.",
+                r: "<strong>Liste chaînée</strong> : simple mais recherche en O(n). <strong>Tableau de listes</strong> (par priorité) : O(1) pour trouver le plus prioritaire. <strong>Arbre rouge-noir</strong> : utilisé par CFS de Linux (O(log n))."
             },
             {
-                q: "Pourquoi utiliser un arbre rouge-noir plutôt qu'une simple liste ?",
-                r: "Avec une liste, trouver le processus le plus prioritaire est en <strong>O(n)</strong>. L'arbre rouge-noir permet de toujours avoir le minimum (plus petit vruntime) en <strong>O(log n)</strong> pour l'insertion/suppression, et <strong>O(1)</strong> pour trouver le minimum (c'est le nœud le plus à gauche)."
+                q: "Quel est le point clé de cette diapo sur Linux CFS ?",
+                r: "Linux CFS utilise un arbre rouge-noir trié par \"virtual runtime\" : le processus avec le moins de temps CPU virtuel est choisi."
             }
         ]
     },
@@ -199,12 +194,12 @@ const section7Data = [
         `,
         questions: [
             {
-                q: "Comment le vruntime implémente-t-il les priorités dans CFS ?",
-                r: "Le vruntime est le temps CPU <strong>pondéré par le poids</strong> (inverse de la priorité). Un processus prioritaire a un poids élevé, donc son vruntime augmente <strong>lentement</strong>. Il reste plus longtemps \"en avance\" des autres et est choisi plus souvent pour rattraper."
+                q: "Citez les quatre points clés sur le vruntime dans Linux CFS selon cette diapo.",
+                r: "1) Chaque processus a un <strong>vruntime</strong> (virtual runtime). 2) vruntime = temps CPU réel × (poids de référence / poids du processus). 3) Le poids dépend du nice : nice bas = poids élevé = vruntime augmente lentement. 4) On choisit toujours le processus avec le <strong>plus petit vruntime</strong>."
             },
             {
-                q: "Pourquoi CFS est-il dit \"complètement équitable\" ?",
-                r: "CFS essaie de donner à chaque processus sa <strong>part proportionnelle</strong> de CPU (selon son poids). Si tous ont le même poids, chacun obtient 1/N du CPU. Le vruntime mesure cette équité : il devrait être égal pour tous à terme."
+                q: "Quel est le point clé de cette diapo sur le vruntime et la priorité ?",
+                r: "Un processus prioritaire (nice bas) voit son vruntime augmenter plus lentement → il est choisi plus souvent."
             }
         ]
     },
@@ -224,12 +219,12 @@ const section7Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre SCHED_FIFO et SCHED_RR ?",
-                r: "Les deux sont temps réel. <strong>SCHED_FIFO</strong> : un processus garde le CPU jusqu'à ce qu'il bloque ou qu'un processus plus prioritaire arrive. <strong>SCHED_RR</strong> : comme FIFO mais avec un quantum → les processus de même priorité alternent."
+                q: "Citez les cinq classes d'ordonnancement sous Linux mentionnées dans cette diapo.",
+                r: "<strong>SCHED_FIFO</strong> : temps réel, FIFO sans préemption (sauf par plus prioritaire). <strong>SCHED_RR</strong> : temps réel, Round-Robin avec quantum. <strong>SCHED_OTHER/NORMAL</strong> : par défaut, utilise CFS. <strong>SCHED_BATCH</strong> : pour tâches batch, optimise le débit. <strong>SCHED_IDLE</strong> : très basse priorité, s'exécute quand rien d'autre."
             },
             {
-                q: "Pourquoi les processus temps réel sont-ils dangereux ?",
-                r: "Un processus temps réel (SCHED_FIFO/RR) qui ne bloque jamais <strong>monopolise le CPU</strong> car il a toujours priorité sur les processus normaux. Même le shell ne peut plus répondre. Seul root peut créer des processus temps réel pour cette raison."
+                q: "Quel est le point clé de cette diapo sur les classes temps réel ?",
+                r: "Les classes temps réel (FIFO, RR) ont toujours priorité sur les classes normales."
             }
         ]
     },
@@ -252,12 +247,12 @@ const section7Data = [
         `,
         questions: [
             {
-                q: "Comment voir la politique d'ordonnancement d'un processus ?",
-                r: "Avec <code>chrt -p PID</code> qui affiche la politique (SCHED_OTHER, SCHED_FIFO, etc.) et la priorité temps réel. Ou avec <code>ps -o cls</code> qui montre la classe (TS pour time-sharing/CFS, FF pour FIFO, RR pour Round-Robin)."
+                q: "Citez les quatre outils pour observer l'ordonnancement mentionnés dans cette diapo.",
+                r: "<code>top</code> / <code>htop</code> : voir les processus et leur utilisation CPU. <code>ps -eo pid,ni,pri,cls,comm</code> : nice, priorité, classe d'ordonnancement. <code>chrt -p PID</code> : voir/modifier la politique d'ordonnancement. <code>taskset</code> : affinité CPU (sur quels cœurs le processus peut tourner)."
             },
             {
-                q: "Qu'est-ce que l'affinité CPU ?",
-                r: "L'<strong>affinité</strong> définit sur quels <strong>cœurs</strong> un processus peut s'exécuter. Par défaut, un processus peut tourner sur n'importe quel cœur. Avec <code>taskset</code>, on peut le restreindre à certains cœurs (utile pour isoler des charges de travail ou optimiser les caches)."
+                q: "Citez les deux fichiers système pour l'ordonnancement mentionnés dans cette diapo.",
+                r: "<code>/proc/[pid]/sched</code> : statistiques d'ordonnancement détaillées. <code>/proc/[pid]/stat</code> : informations sur l'état du processus."
             }
         ]
     }

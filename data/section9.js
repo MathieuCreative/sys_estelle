@@ -25,12 +25,12 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "Pourquoi est-il difficile de prévoir la taille de partition nécessaire ?",
-                r: "La consommation mémoire dépend des <strong>données d'entrée</strong> et de l'utilisation. Un éditeur de texte peut avoir besoin de 10 Mo pour un petit fichier ou 1 Go pour un fichier énorme. Impossible de prévoir à l'avance."
+                q: "Citez les trois améliorations possibles du partitionnement mentionnées dans cette diapo.",
+                r: "<strong>Partitions de tailles différentes</strong>, <strong>Nombre de partitions évolutif</strong>, et <strong>Support matériel</strong> pour empêcher les accès hors partition."
             },
             {
-                q: "Comment permettre le partage de mémoire tout en assurant l'isolation ?",
-                r: "Il faut un mécanisme qui permette de <strong>désigner explicitement</strong> les zones partagées. Par défaut tout est isolé, mais sur demande (ex: shared memory), deux processus peuvent accéder à la même zone physique."
+                q: "Selon cette diapo, quelle est la conclusion sur ces améliorations ?",
+                r: "Ces améliorations ne suffisent pas. Il faut une approche <strong>radicalement différente</strong>."
             }
         ]
     },
@@ -57,12 +57,12 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "Pourquoi des pages de 4 Ko ?",
-                r: "C'est un compromis : pages trop <strong>petites</strong> = trop de métadonnées à gérer (tables de pages énormes). Pages trop <strong>grandes</strong> = gaspillage (fragmentation interne). 4 Ko est un bon équilibre pour la plupart des workloads."
+                q: "Quelle est la taille généralement utilisée pour les pages selon cette diapo ?",
+                r: "Généralement <strong>4 Ko</strong> (4096 octets), dépend de l'architecture."
             },
             {
-                q: "Comment résoudre le problème des pages non contiguës ?",
-                r: "La <strong>mémoire virtuelle</strong> ! Chaque processus voit un espace d'adresses <strong>virtuel contigu</strong>. Le matériel traduit ces adresses virtuelles en adresses physiques (potentiellement dispersées). Le processus ne voit jamais les \"trous\"."
+                q: "Citez les avantages et inconvénients de la pagination mentionnés dans cette diapo.",
+                r: "Avantages : gestion de la mémoire à <strong>faible granularité</strong>, pas (peu) de gaspillage mémoire. Inconvénients : support matériel bien plus <strong>complexe</strong>, pas de garantie que les pages soient <strong>contiguës</strong> en mémoire physique."
             }
         ]
     },
@@ -87,12 +87,12 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "Pourquoi les bibliothèques partagées économisent-elles de la mémoire ?",
-                r: "Si 100 processus utilisent la libc, au lieu de charger 100 copies en RAM, on charge <strong>une seule copie</strong> et tous les processus y accèdent. Comme c'est en lecture seule, pas de conflit. Économie massive de RAM."
+                q: "Citez les besoins mémoire des processus mentionnés dans cette diapo.",
+                r: "Espace d'adressage <strong>contigu</strong>, allocation de plus ou moins de mémoire <strong>au cours du temps</strong>, avoir <strong>assez</strong> de mémoire voire <strong>toute</strong> la mémoire de la machine, pouvoir <strong>partager</strong> des espaces mémoires entre processus, et par défaut <strong>empêcher</strong> les accès non autorisés."
             },
             {
-                q: "Qu'est-ce que cela signifie que les processus n'utilisent pas toute leur mémoire allouée ?",
-                r: "Un processus peut allouer 1 Go avec malloc() mais n'utiliser que 100 Mo. Grâce à l'<strong>allocation paresseuse</strong>, l'OS n'alloue la mémoire physique que quand elle est vraiment accédée. Le reste n'existe que virtuellement."
+                q: "D'après cette diapo, pourquoi les bibliothèques sont-elles chargées en lecture seule ?",
+                r: "Les bibliothèques chargées en <strong>lecture seule</strong> sont partageables entre plusieurs processus."
             }
         ]
     },
@@ -120,12 +120,16 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "Pourquoi une adresse virtuelle n'a-t-elle pas de sens pour un autre processus ?",
-                r: "Chaque processus a sa propre <strong>table de pages</strong>. L'adresse virtuelle 0x1000 dans le processus A pointe vers une page physique différente de 0x1000 dans le processus B. Même adresse virtuelle, <strong>contenus différents</strong>."
+                q: "Selon cette diapo, quels sont les deux types d'adresses ?",
+                r: "Les <strong>adresses virtuelles</strong> (manipulées par les processus, le noyau et le processeur) et les <strong>adresses physiques</strong> (manipulées au dernier moment pour accéder à la RAM)."
             },
             {
-                q: "Comment le processus peut-il utiliser \"toute la mémoire\" s'il y a plusieurs processus ?",
-                r: "Chaque processus <strong>croit</strong> avoir toute la mémoire (ex: 256 To d'espace virtuel en 64 bits). Mais il n'utilise qu'une petite partie, qui est traduite vers de la mémoire physique réelle. Les zones non utilisées ne consomment pas de RAM."
+                q: "D'après cette diapo, qu'affiche printf(\"%p\", &var) ?",
+                r: "Une adresse <strong>virtuelle</strong>."
+            },
+            {
+                q: "Selon cette diapo, qui fait la traduction d'adresse virtuelle vers physique ?",
+                r: "La traduction est faite par le <strong>matériel</strong> (MMU)."
             }
         ]
     },
@@ -152,12 +156,16 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "Pourquoi l'alignement mémoire est-il important ?",
-                r: "Un accès mémoire <strong>non aligné</strong> (ex: lire un int de 4 octets à l'adresse 0x1001) peut nécessiter <strong>deux accès mémoire</strong> au lieu d'un, car les données chevauchent deux mots mémoire. Certains processeurs refusent même ces accès."
+                q: "Selon cette diapo, qu'est-ce qu'une adresse désigne ?",
+                r: "Une adresse désigne un <strong>octet</strong>."
             },
             {
-                q: "Comment la mémoire virtuelle abstrait-elle le stockage physique ?",
-                r: "Une page virtuelle peut être : en <strong>cache CPU</strong>, en <strong>RAM</strong>, sur le <strong>disque</strong> (swap), ou <strong>pas encore allouée</strong>. Le processus utilise la même adresse virtuelle. Le matériel et l'OS gèrent transparently où sont vraiment les données."
+                q: "Comment accéder à un bit précis d'un octet d'après cette diapo ?",
+                r: "Charger l'<strong>octet entier</strong> dans un registre, puis utiliser des opérations <strong>bit-à-bit</strong> (&, |, ~, <<, >>)."
+            },
+            {
+                q: "D'après cette diapo, quel est l'avantage de la mémoire virtuelle concernant le stockage physique ?",
+                r: "La mémoire virtuelle est <strong>indépendante</strong> du stockage physique (cache processeur, RAM, disque)."
             }
         ]
     },
@@ -179,12 +187,16 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "Comment peut-on allouer plus de mémoire que disponible physiquement ?",
-                r: "Grâce à l'<strong>allocation paresseuse</strong> (lazy allocation). Quand un processus demande de la mémoire, l'OS dit \"OK\" mais n'alloue rien. La page physique n'est allouée qu'au premier accès. Si le processus n'utilise jamais certaines zones, elles ne consomment jamais de RAM."
+                q: "Citez trois avantages de la mémoire virtuelle mentionnés dans cette diapo.",
+                r: "<strong>Abstraction</strong> du stockage physique, chargement <strong>au dernier moment</strong>, <strong>isolation</strong> de la mémoire de chaque processus."
             },
             {
-                q: "Comment fonctionne la mutualisation mémoire ?",
-                r: "Plusieurs processus peuvent avoir des pages virtuelles qui pointent vers la <strong>même page physique</strong>. Utilisé pour les bibliothèques partagées, le code exécutable (fork), et la mémoire partagée explicite (shm). Une seule copie en RAM, visible par tous."
+                q: "D'après cette diapo, comment la mémoire virtuelle permet-elle la mutualisation ?",
+                r: "Plusieurs adresses virtuelles peuvent pointer vers la même adresse physique, permettant la <strong>mutualisation</strong> facile."
+            },
+            {
+                q: "Selon cette diapo, à quelle granularité sont les droits d'accès ?",
+                r: "Les droits d'accès (R, W, X) sont à la granularité de la <strong>page</strong>."
             }
         ]
     },
@@ -217,12 +229,12 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "Pourquoi la traduction doit-elle être ultra-rapide ?",
-                r: "Chaque instruction peut accéder à la mémoire (lecture instruction, lecture/écriture données). Si la traduction prend 10ns et qu'on fait 1 milliard d'accès/seconde, c'est 10 secondes de overhead ! Le <strong>TLB</strong> (cache de traduction) est indispensable."
+                q: "Citez les trois inconvénients de la mémoire virtuelle mentionnés dans cette diapo.",
+                r: "<strong>Complexité</strong> (besoin de l'aide du matériel MMU), <strong>performances cruciales</strong> (traduction nécessaire à chaque accès mémoire), et <strong>consommation mémoire</strong> (il faut stocker les tables de traduction)."
             },
             {
-                q: "Combien de mémoire consomment les tables de pages ?",
-                r: "En 64 bits avec 4 niveaux de tables, une table = 4 Ko. Pour un processus utilisant quelques Go, les tables peuvent prendre plusieurs Mo. Avec des centaines de processus, ça s'accumule. D'où l'importance des tables <strong>multi-niveaux</strong> qui n'allouent que le nécessaire."
+                q: "D'après cette diapo, pourquoi la traduction doit-elle être extrêmement rapide ?",
+                r: "La traduction est nécessaire à <strong>chaque accès mémoire</strong>."
             }
         ]
     },
@@ -246,12 +258,16 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "Pourquoi le décalage reste-t-il identique entre virtuel et physique ?",
-                r: "Les pages virtuelles et physiques ont la <strong>même taille</strong> (ex: 4 Ko). Si l'octet est au 100ème offset dans la page virtuelle, il sera au 100ème offset dans la page physique. Seule l'adresse de <strong>base</strong> de la page change."
+                q: "Selon cette diapo, de quoi est composée une adresse virtuelle ?",
+                r: "Une adresse virtuelle est composée du <strong>numéro de page</strong> (PFN : Page Frame Number) et du <strong>décalage</strong> (offset) au sein de la page."
             },
             {
-                q: "Combien de bits pour le décalage avec des pages de 4 Ko ?",
-                r: "4 Ko = 4096 = 2^12 octets. Il faut donc <strong>12 bits</strong> pour adresser n'importe quel octet dans la page (de 0 à 4095). Les bits restants de l'adresse forment le numéro de page."
+                q: "D'après cette diapo, décrivez le processus de traduction d'une adresse virtuelle.",
+                r: "Le numéro de page sert d'<strong>indice</strong> dans la table de pages, on récupère une <strong>PTE</strong> (Page Table Entry), la PTE contient l'adresse physique du <strong>début</strong> de la page physique, et on applique le même <strong>décalage</strong> sur l'adresse physique."
+            },
+            {
+                q: "Pourquoi le décalage reste-t-il identique selon cette diapo ?",
+                r: "Les pages virtuelles et physiques ont la <strong>même taille</strong>."
             }
         ]
     },
@@ -272,12 +288,12 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "À quoi sert le bit \"dirty\" ?",
-                r: "Il indique si la page a été <strong>modifiée</strong> depuis son chargement. C'est crucial pour le swap : si la page est dirty, il faut la <strong>sauvegarder</strong> sur disque avant de la remplacer. Si elle n'est pas dirty, on peut simplement la jeter (on la rechargera depuis le fichier original)."
+                q: "Selon cette diapo, que contient une PTE ?",
+                r: "<strong>Adresse physique</strong> de la page, <strong>bits de validité</strong>, <strong>bits de protection</strong> (RO, RW, X), <strong>bits d'état</strong> (modifié, accédé récemment), et <strong>bits statistiques</strong>."
             },
             {
-                q: "Comment les bits de protection implémentent-ils la sécurité ?",
-                r: "À chaque accès, le matériel vérifie les permissions. Écriture sur page RO ? <strong>Segmentation fault</strong>. Exécution de code sur page non-X ? <strong>Segmentation fault</strong>. C'est la base de la protection contre les buffer overflows (stack non-exécutable)."
+                q: "D'après cette diapo, de quoi dépend la structure exacte de la PTE ?",
+                r: "La structure exacte de la PTE dépend de l'<strong>architecture</strong> (x86, ARM...) et de l'<strong>OS</strong>."
             }
         ]
     },
@@ -303,12 +319,20 @@ const section9Data = [
         `,
         questions: [
             {
-                q: "Combien de mémoire pour stocker 2^20 PTE ?",
-                r: "Si chaque PTE fait 4 octets : 2^20 × 4 = <strong>4 Mo</strong> par processus juste pour la table de pages ! Avec 100 processus = 400 Mo gaspillés. Inacceptable, surtout que la plupart des PTE sont invalides."
+                q: "Selon cette diapo, quelles sont les hypothèses de l'exemple de traduction ?",
+                r: "Adresse virtuelle sur <strong>32 bits</strong>, adresse physique sur <strong>24 bits</strong>, pages de <strong>4 Ko</strong> (4096 octets)."
             },
             {
-                q: "Pourquoi la plupart des PTE sont-elles invalides ?",
-                r: "Un processus n'utilise qu'une <strong>petite fraction</strong> de ses 4 Go virtuels. La pile en haut, le tas en bas, le code au milieu... D'énormes zones ne sont jamais utilisées. Stocker des PTE invalides pour ces zones est du gaspillage."
+                q: "D'après cette diapo, combien de bits sont nécessaires pour le décalage avec des pages de 4096 octets ?",
+                r: "<strong>12 bits</strong> pour le décalage."
+            },
+            {
+                q: "Selon cette diapo, combien de mémoire virtuelle peut-on adresser avec 32 bits ?",
+                r: "2^32 = <strong>4 Go</strong> de mémoire virtuelle."
+            },
+            {
+                q: "Combien de PTE sont nécessaires par processus selon cette diapo ?",
+                r: "<strong>2^20 PTE</strong> par processus."
             }
         ]
     }

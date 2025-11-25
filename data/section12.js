@@ -8,12 +8,7 @@ const section12Data = [
         resume: `
             <p><em>Diapo de titre introduisant la section sur le stockage et les systèmes de fichiers.</em></p>
         `,
-        questions: [
-            {
-                q: "Pourquoi le stockage est-il un sujet important en OS ?",
-                r: "Le stockage est <strong>persistant</strong> (survit aux redémarrages) et <strong>partagé</strong> entre processus et utilisateurs. L'OS doit gérer l'organisation des données (systèmes de fichiers), les performances (cache, ordonnancement I/O), et la fiabilité (intégrité, journalisation)."
-            }
-        ]
+        questions: []
     },
     {
         id: 112,
@@ -32,8 +27,12 @@ const section12Data = [
         `,
         questions: [
             {
-                q: "Pourquoi les I/O sont-elles généralement le goulot d'étranglement ?",
-                r: "Le CPU traite des milliards d'opérations par seconde. Un disque HDD fait ~100 opérations/seconde, un SSD ~100 000. C'est <strong>10 000 à 10 millions de fois</strong> plus lent. Les programmes passent souvent plus de temps à attendre les I/O qu'à calculer."
+                q: "Que signifie I/O selon cette diapo ?",
+                r: "Input/Output (Entrées/Sorties), entrées/sorties de données dans l'ensemble {processeur, RAM}."
+            },
+            {
+                q: "Que peut désigner I/O d'après cette diapo ?",
+                r: "<strong>Tous les périphériques</strong> (cartes PCI, USB, clavier, souris, réseau, écran, son, console série...) et la <strong>mémoire non-volatile</strong> (disques)."
             }
         ]
     },
@@ -54,12 +53,12 @@ const section12Data = [
         `,
         questions: [
             {
-                q: "Que se passe-t-il si le système crashe pendant une écriture ?",
-                r: "Sans précaution, les données peuvent être <strong>corrompues</strong> : écriture partielle, métadonnées incohérentes avec les données. Les systèmes de fichiers modernes utilisent la <strong>journalisation</strong> ou le <strong>copy-on-write</strong> pour garantir la cohérence."
+                q: "Citez les problématiques du stockage de fichiers mentionnées dans cette diapo.",
+                r: "<strong>Intégrité</strong> des données, <strong>performance</strong>, comment stocker les <strong>données</strong> et les <strong>métadonnées</strong>, comment <strong>récupérer</strong> les données après un crash, et comment gérer les <strong>accès concurrents</strong>."
             },
             {
-                q: "Pourquoi les accès concurrents sont-ils problématiques ?",
-                r: "Si deux processus écrivent au même endroit d'un fichier simultanément, le résultat est <strong>indéterminé</strong>. Le système de fichiers et l'OS fournissent des mécanismes de <strong>verrouillage</strong> (flock, fcntl) pour coordonner les accès."
+                q: "Quelle est la solution à ces problématiques selon cette diapo ?",
+                r: "Utiliser des <strong>systèmes de fichiers</strong>."
             }
         ]
     },
@@ -82,12 +81,12 @@ const section12Data = [
         `,
         questions: [
             {
-                q: "Quand accède-t-on directement au périphérique bloc ?",
-                r: "Pour : créer/formater un système de fichiers (<code>mkfs</code>), faire des images disque (<code>dd</code>), récupérer des données sur un FS corrompu, bases de données à haute performance qui gèrent leur propre stockage."
+                q: "Qu'est-ce qu'un système de fichiers selon cette diapo ?",
+                r: "Définit comment sont stockées les (méta-)données sur le disque. Distingue le stockage <strong>physique</strong> (octets) des représentations <strong>logiques</strong> (fichiers, répertoires). <strong>Abstrait</strong> le type de support physique."
             },
             {
-                q: "Citez quelques systèmes de fichiers courants.",
-                r: "<strong>Linux</strong> : ext4 (défaut), btrfs, xfs. <strong>Windows</strong> : NTFS, FAT32. <strong>macOS</strong> : APFS, HFS+. <strong>Réseau</strong> : NFS, SMB/CIFS. <strong>Spéciaux</strong> : tmpfs (RAM), procfs, sysfs."
+                q: "D'après cette diapo, que peut-on faire sans système de fichiers ?",
+                r: "Ouvrir directement le <strong>périphérique bloc</strong> pour lire/écrire des octets (par exemple : <code>/dev/sda3</code>). Les processus doivent se mettre d'accord sur qui écrit où."
             }
         ]
     },
@@ -108,12 +107,8 @@ const section12Data = [
         `,
         questions: [
             {
-                q: "Quel est le rôle du VFS ?",
-                r: "Le VFS fournit une <strong>interface uniforme</strong> pour tous les systèmes de fichiers. Le code utilisateur utilise les mêmes appels (open, read...) que le FS soit ext4, NTFS, ou NFS. Le VFS traduit vers les opérations spécifiques de chaque FS."
-            },
-            {
-                q: "Quelle est la différence entre fopen() et open() ?",
-                r: "<code>fopen()</code> est une fonction de la <strong>libc</strong> qui fournit du buffering et retourne un FILE*. <code>open()</code> est un <strong>appel système</strong> qui retourne un file descriptor (entier). fopen() appelle open() en interne."
+                q: "Citez les couches d'accès au stockage mentionnées dans cette diapo.",
+                r: "<strong>Interface haut niveau</strong> (fopen, fread, fwrite), <strong>appels système</strong> (open, read, write), <strong>Virtual File System</strong> (VFS), <strong>systèmes de fichiers</strong> (Ext4, NTFS, ZFS, BTRFS, NFS, SSHFS), <strong>Block Device Layer</strong>, <strong>drivers</strong> (IDE, SATA, NVME), et <strong>périphériques</strong>."
             }
         ]
     },
@@ -140,12 +135,16 @@ const section12Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre GPT et MBR ?",
-                r: "<strong>MBR</strong> : limité à 4 partitions primaires, disques de 2 To max, 32 bits. <strong>GPT</strong> : 128 partitions, disques de 9 Zo (zettaoctets), 64 bits, redondance de la table. GPT est le standard moderne, requis pour UEFI."
+                q: "Qu'est-ce qu'une partition selon cette diapo ?",
+                r: "Le disque peut être découpé en zones : <strong>partitions</strong>."
             },
             {
-                q: "Pourquoi utiliser plusieurs partitions ?",
-                r: "1) Séparer <strong>OS et données</strong> (réinstaller l'OS sans perdre les données). 2) <strong>Différents FS</strong> selon l'usage. 3) <strong>Limiter l'impact</strong> d'un FS plein. 4) <strong>Sécurité</strong> : partition /tmp montée noexec."
+                q: "D'après cette diapo, où se trouve la table de partitions ?",
+                r: "Dans les premiers octets du disque. Format actuel : <strong>GPT</strong> (GUID Partition Table). Ancien format : <strong>MBR</strong> (Master Boot Record)."
+            },
+            {
+                q: "Selon cette diapo, que contient une entrée de partition ?",
+                r: "<strong>GUID</strong> (identifiant unique), première et dernière adresse, attributs (amorçable, lecture seule...), et nom."
             }
         ]
     },
@@ -171,12 +170,16 @@ const section12Data = [
         `,
         questions: [
             {
-                q: "Comment LVM permet-il les snapshots ?",
-                r: "LVM utilise le <strong>copy-on-write</strong>. Le snapshot référence les mêmes blocs que l'original. Quand un bloc est modifié, l'ancienne version est copiée vers le snapshot. On peut ainsi revenir à un état antérieur."
+                q: "Qu'est-ce que LVM selon cette diapo ?",
+                r: "Abstrait les partitions physiques en <strong>volumes logiques</strong>."
             },
             {
-                q: "Peut-on agrandir un volume logique sans arrêter le système ?",
-                r: "<strong>Oui</strong>, avec LVM on peut agrandir un LV en ligne (<code>lvextend</code>), puis agrandir le système de fichiers (<code>resize2fs</code> pour ext4). C'est une des grandes forces de LVM par rapport aux partitions traditionnelles."
+                q: "Citez les avantages de LVM mentionnés dans cette diapo.",
+                r: "Un système de fichiers peut s'étendre sur <strong>plusieurs disques</strong>, <strong>redimensionnement</strong> facilité, <strong>instantanés</strong> (snapshots), et gestion beaucoup plus <strong>flexible</strong>."
+            },
+            {
+                q: "D'après cette diapo, quelle est l'architecture de LVM ?",
+                r: "<strong>PV</strong> (Physical Volumes : partitions physiques), <strong>VG</strong> (Volume Group : agrégat de PV), et <strong>LV</strong> (Logical Volumes : \"partitions\" logiques dans un VG)."
             }
         ]
     },
@@ -201,12 +204,16 @@ const section12Data = [
         `,
         questions: [
             {
-                q: "Pourquoi RAID 5 ou 6 sont-ils souvent préférés au RAID 1 ?",
-                r: "RAID 1 perd <strong>50% de capacité</strong>. RAID 5 avec N disques perd seulement 1/N (ex: 4 disques = 25% perdu). RAID 5/6 offrent un bon compromis capacité/redondance. RAID 6 est recommandé pour les gros disques (temps de reconstruction long)."
+                q: "Qu'est-ce que RAID selon cette diapo ?",
+                r: "Répartir les données sur plusieurs disques."
             },
             {
-                q: "Le RAID remplace-t-il les sauvegardes ?",
-                r: "<strong>NON !</strong> Le RAID protège contre les <strong>pannes matérielles</strong>. Il ne protège pas contre : suppression accidentelle, corruption logicielle, ransomware, vol/incendie. Les sauvegardes restent <strong>indispensables</strong>."
+                q: "Citez les objectifs du RAID mentionnés dans cette diapo.",
+                r: "<strong>Performances</strong> (parallélisation des accès) et <strong>redondance</strong> (permet de perdre ≥ 1 disque(s))."
+            },
+            {
+                q: "D'après cette diapo, quels sont les niveaux RAID courants ?",
+                r: "<strong>RAID 0</strong> (striping, performances, pas de redondance), <strong>RAID 1</strong> (mirroring, redondance, 50% capacité perdue), <strong>RAID 5</strong> (striping + parité, tolère 1 panne), <strong>RAID 6</strong> (double parité, tolère 2 pannes)."
             }
         ]
     },
@@ -231,12 +238,16 @@ const section12Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre lien symbolique et lien physique ?",
-                r: "<strong>Lien symbolique</strong> : fichier spécial contenant un chemin. Peut pointer vers un autre FS. Si la cible est supprimée, le lien est \"cassé\". <strong>Lien physique</strong> : nouvelle entrée dans le répertoire pointant vers le même inode. Le fichier existe tant qu'un lien existe."
+                q: "Selon cette diapo, comment est organisé un système de fichiers ?",
+                r: "Organisation en arbre : <strong>feuilles</strong> (fichiers) et <strong>nœuds intermédiaires</strong> (répertoires)."
             },
             {
-                q: "Qu'est-ce qu'un inode ?",
-                r: "L'<strong>inode</strong> contient toutes les métadonnées d'un fichier SAUF son nom : taille, permissions, dates, propriétaire, et pointeurs vers les blocs de données. Le nom est dans l'entrée du répertoire parent, qui pointe vers l'inode."
+                q: "Citez les types d'éléments mentionnés dans cette diapo.",
+                r: "<strong>Fichier</strong> (suite d'octets), <strong>répertoire</strong> (suite de descripteurs d'enfants), <strong>liens symboliques</strong> (<code>ln -s</code>, fichier contenant le chemin cible), et <strong>liens physiques</strong> (<code>ln</code>, deux entrées vers le même inode)."
+            },
+            {
+                q: "Qu'est-ce qu'un i-node d'après cette diapo ?",
+                r: "Métadonnées d'un nœud (taille, droits, type, dates...)."
             }
         ]
     },
@@ -264,12 +275,16 @@ const section12Data = [
         `,
         questions: [
             {
-                q: "Pourquoi la fragmentation est-elle un problème pour les HDD ?",
-                r: "Un HDD a une <strong>tête de lecture mécanique</strong>. Lire des blocs dispersés nécessite des déplacements physiques (~10ms chacun). Un fichier fragmenté en 100 blocs peut prendre 1 seconde à lire au lieu de 0.01s s'il était contigu."
+                q: "Selon cette diapo, comment sont stockés les fichiers sur disque ?",
+                r: "Les fichiers sont découpés par <strong>blocs / secteurs</strong>. On ne peut pas allouer plus petit sur le disque. Les blocs d'un fichier <strong>pas forcément contigus</strong>."
             },
             {
-                q: "Pourquoi les SSD ne nécessitent-ils pas de défragmentation ?",
-                r: "Les SSD n'ont <strong>pas de partie mobile</strong>. Accéder à n'importe quel bloc prend le même temps (~0.1ms). La fragmentation n'impacte pas les performances. Pire, la défragmentation <strong>use</strong> les cellules flash inutilement."
+                q: "Qu'est-ce que la fragmentation d'après cette diapo ?",
+                r: "Blocs dispersés → <strong>défragmentation</strong> nécessaire (HDD). Optimisations du FS pour éviter la fragmentation."
+            },
+            {
+                q: "Qu'est-ce qu'un fichier à trous selon cette diapo ?",
+                r: "Seuls les blocs utiles sont alloués. Écrire à la fin en laissant du vide au début. Taille du fichier ≠ occupation sur le disque."
             }
         ]
     }

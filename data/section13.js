@@ -24,12 +24,12 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Pourquoi l'ordonnancement I/O est-il important pour les HDD ?",
-                r: "Un HDD a une <strong>tête de lecture mécanique</strong>. L'algorithme d'ordonnancement peut regrouper les requêtes proches physiquement pour minimiser les déplacements de la tête. C'est l'équivalent de l'algorithme de l'ascenseur."
+                q: "Qu'est-ce que l'I/O Scheduling selon cette diapo ?",
+                r: "Ordonnancer l'accès au disque. Pertinent pour les <strong>HDD</strong>, pas les SSD."
             },
             {
-                q: "Quel scheduler utiliser pour un SSD ?",
-                r: "<strong>NOOP</strong> ou <strong>none</strong>. Les SSD n'ont pas de tête mécanique, donc l'optimisation des déplacements est inutile. Un scheduler simple type FIFO est préférable pour minimiser la latence et la charge CPU."
+                q: "Citez les différents algorithmes d'ordonnancement I/O mentionnés dans cette diapo.",
+                r: "<strong>CFQ</strong> (Completely Fair Queuing : équité entre processus), <strong>NOOP</strong> (FIFO simple, bon pour SSD), <strong>Deadline</strong> (évite la famine avec des deadlines), et <strong>mq-deadline</strong> (version multi-queue moderne)."
             }
         ]
     },
@@ -54,12 +54,16 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Que se passe-t-il si on monte sur un répertoire non vide ?",
-                r: "Le contenu original du répertoire est <strong>masqué</strong> (pas supprimé). On ne voit que le contenu du système de fichiers monté. Après démontage, le contenu original réapparaît."
+                q: "Qu'est-ce que le montage selon cette diapo ?",
+                r: "Attache un système de fichiers à un point de l'arborescence."
             },
             {
-                q: "Pourquoi le démontage peut-il échouer ?",
-                r: "Si des fichiers sont <strong>ouverts</strong> ou si un processus a son <strong>répertoire courant</strong> dans le point de montage. Utiliser <code>lsof +D /mnt/usb</code> ou <code>fuser -m /mnt/usb</code> pour identifier les processus."
+                q: "Citez des exemples de montage mentionnés dans cette diapo.",
+                r: "<code>mount /dev/sdb1 /mnt/usb</code>, <code>mount -t nfs server:/share /mnt/nfs</code>, et <code>mount -o loop image.iso /mnt/iso</code>."
+            },
+            {
+                q: "D'après cette diapo, quand le démontage est-il impossible ?",
+                r: "Si des fichiers sont ouverts. Utiliser <code>lsof</code> pour voir qui utilise le point de montage."
             }
         ]
     },
@@ -83,12 +87,16 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Quels sont les avantages de FUSE ?",
-                r: "1) <strong>Simplicité</strong> : développement en espace utilisateur, pas besoin de recompiler le noyau. 2) <strong>Sécurité</strong> : un bug ne crashe pas le système. 3) <strong>Portabilité</strong> : disponible sur Linux, macOS, FreeBSD. Idéal pour des FS expérimentaux ou réseau."
+                q: "Citez les possibilités d'implémentation d'un système de fichiers mentionnées dans cette diapo.",
+                r: "<strong>Dans le noyau</strong> (performances maximales, complexe à développer) et <strong>en espace utilisateur</strong> avec <strong>FUSE</strong> (Filesystem in Userspace)."
             },
             {
-                q: "Comment fonctionne sshfs ?",
-                r: "sshfs utilise FUSE pour monter un répertoire distant via <strong>SSH</strong>. Chaque opération fichier (open, read...) est traduite en commandes SFTP. C'est transparent pour les applications : elles voient un répertoire local."
+                q: "Qu'est-ce que FUSE selon cette diapo ?",
+                r: "Module noyau qui redirige les appels vers un processus utilisateur. Le processus implémente les opérations (open, read, write...). Plus facile à développer et déboguer, moins performant (changements de contexte)."
+            },
+            {
+                q: "Citez des exemples FUSE mentionnés dans cette diapo.",
+                r: "sshfs, ntfs-3g, encfs, s3fs."
             }
         ]
     },
@@ -116,12 +124,16 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Comment lire le PID du processus courant via procfs ?",
-                r: "<code>cat /proc/self/stat</code> ou simplement <code>echo $$</code> dans bash. Le répertoire <code>/proc/self</code> est un lien symbolique vers <code>/proc/[pid du processus courant]</code>."
+                q: "Qu'est-ce que procfs selon cette diapo ?",
+                r: "Monté sur <code>/proc</code>. Informations sur les processus (<code>/proc/[pid]/</code>), paramètres système (<code>/proc/sys/</code>), <code>/proc/cpuinfo</code>, <code>/proc/meminfo</code>..."
             },
             {
-                q: "Pourquoi utiliser tmpfs pour /tmp ?",
-                r: "1) <strong>Performance</strong> : accès en RAM, pas de disque. 2) <strong>Sécurité</strong> : contenu effacé au redémarrage. 3) <strong>Usure</strong> : évite les écritures inutiles sur SSD. Attention : consomme de la RAM !"
+                q: "Qu'est-ce que sysfs d'après cette diapo ?",
+                r: "Monté sur <code>/sys</code>. Représentation du matériel et des drivers (<code>/sys/class/</code>, <code>/sys/block/</code>...)."
+            },
+            {
+                q: "Qu'est-ce que tmpfs selon cette diapo ?",
+                r: "Système de fichiers en <strong>RAM</strong>. Très rapide, contenu perdu au redémarrage. Utilisé pour <code>/tmp</code>, <code>/run</code>."
             }
         ]
     },
@@ -143,12 +155,8 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre périphérique caractère et bloc ?",
-                r: "<strong>Caractère</strong> : accès séquentiel octet par octet (terminal, souris, port série). <strong>Bloc</strong> : accès par blocs, supporte le seek (disques, partitions). Les périphériques bloc peuvent être montés, pas les caractère."
-            },
-            {
-                q: "À quoi servent les sockets Unix ?",
-                r: "Les <strong>sockets Unix</strong> permettent la communication inter-processus (IPC) sur la même machine. Plus rapides que les sockets réseau car pas de pile TCP/IP. Utilisées par systemd, X11, Docker..."
+                q: "Citez les types de fichiers sous Unix mentionnés dans cette diapo.",
+                r: "<strong>-</strong> (fichier régulier), <strong>d</strong> (répertoire), <strong>l</strong> (lien symbolique), <strong>c</strong> (périphérique caractère), <strong>b</strong> (périphérique bloc), <strong>p</strong> (tube nommé / FIFO), <strong>s</strong> (socket Unix)."
             }
         ]
     },
@@ -169,12 +177,12 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Comment supprimer la sortie d'une commande ?",
-                r: "Rediriger vers <code>/dev/null</code> : <code>commande > /dev/null 2>&1</code>. Cela supprime stdout et stderr. Utile pour les scripts où on ne veut que le code de retour."
+                q: "Citez les fichiers spéciaux dans /dev mentionnés dans cette diapo.",
+                r: "<strong>/dev/null</strong> (trou noir, absorbe tout ce qu'on écrit), <strong>/dev/zero</strong> (génère des octets nuls à l'infini), <strong>/dev/random</strong> (générateur d'aléa bloquant), <strong>/dev/urandom</strong> (générateur d'aléa non bloquant), <strong>/dev/full</strong> (simule un disque plein)."
             },
             {
-                q: "Quelle différence entre /dev/random et /dev/urandom ?",
-                r: "<strong>/dev/random</strong> bloque si le pool d'entropie est épuisé (très sécurisé mais lent). <strong>/dev/urandom</strong> ne bloque jamais, utilise un PRNG si nécessaire. Pour la plupart des usages, urandom est suffisant et recommandé."
+                q: "Selon cette diapo, comment crée-t-on des fichiers spéciaux ?",
+                r: "<code>mknod</code> crée des fichiers spéciaux. Exemple : <code>mknod /dev/mydevice c 240 0</code>."
             }
         ]
     },
@@ -196,12 +204,16 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Combien d'accès disque pour ouvrir /a/b/c/d/file ?",
-                r: "Sans cache : potentiellement <strong>5 lectures</strong> (racine, a, b, c, d) plus la lecture de l'inode de file. Avec le <strong>dentry cache</strong>, souvent 0 lectures si le chemin est en cache. C'est pourquoi le cache est crucial."
+                q: "Qu'est-ce que le Path Lookup selon cette diapo ?",
+                r: "Résolution d'un chemin vers un fichier."
             },
             {
-                q: "Que se passe-t-il si un élément du chemin est un lien symbolique ?",
-                r: "Le noyau <strong>suit le lien</strong> et continue la résolution avec le chemin cible. Il y a une limite (ELOOP) pour éviter les boucles infinies de liens symboliques pointant les uns vers les autres."
+                q: "Décrivez les étapes du Path Lookup pour /home/user/file.txt selon cette diapo.",
+                r: "Partir de la <strong>racine</strong> (<code>/</code>), chercher l'entrée <code>home</code> dans le répertoire racine, suivre l'inode et vérifier que c'est un répertoire, chercher l'entrée <code>user</code>, suivre l'inode et chercher <code>file.txt</code>, retourner l'inode du fichier."
+            },
+            {
+                q: "Quelle optimisation est utilisée pour le Path Lookup d'après cette diapo ?",
+                r: "Le noyau maintient un <strong>dentry cache</strong> pour éviter de relire le disque à chaque lookup."
             }
         ]
     },
@@ -225,12 +237,12 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Pourquoi séparer /usr et / ?",
-                r: "Historiquement, <code>/</code> contenait le minimum pour démarrer, <code>/usr</code> était sur un autre disque. Aujourd'hui, cette séparation permet de monter <code>/usr</code> en <strong>lecture seule</strong> pour la sécurité, ou de le partager en réseau."
+                q: "Qu'est-ce que le FHS selon cette diapo ?",
+                r: "Standard définissant l'organisation des répertoires sous Linux."
             },
             {
-                q: "Où placer les logs d'une application ?",
-                r: "Dans <code>/var/log/</code>. Le répertoire <code>/var</code> est prévu pour les données qui <strong>changent</strong> pendant l'exécution : logs, caches, spool de mail, bases de données..."
+                q: "Citez les répertoires principaux du FHS mentionnés dans cette diapo.",
+                r: "<strong>/bin, /sbin</strong> (binaires essentiels), <strong>/etc</strong> (fichiers de configuration), <strong>/home</strong> (répertoires personnels), <strong>/root</strong> (répertoire de root), <strong>/tmp</strong> (fichiers temporaires), <strong>/usr</strong> (programmes et bibliothèques), <strong>/var</strong> (données variables), <strong>/opt</strong> (logiciels optionnels), <strong>/proc, /sys</strong> (pseudo-FS noyau)."
             }
         ]
     },
@@ -252,12 +264,16 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Comment réparer un système Linux qui ne démarre plus ?",
-                r: "1) Booter sur un <strong>live USB</strong>. 2) Monter la partition racine : <code>mount /dev/sda1 /mnt</code>. 3) Monter /dev, /proc, /sys avec bind. 4) <code>chroot /mnt</code>. 5) Réparer (reinstaller grub, corriger fstab...)."
+                q: "Qu'est-ce que chroot selon cette diapo ?",
+                r: "Change la racine du système de fichiers pour un processus."
             },
             {
-                q: "Pourquoi chroot n'est-il pas sécurisé ?",
-                r: "Un processus <strong>root</strong> dans un chroot peut s'en échapper : créer un device avec mknod, utiliser des appels système qui ne respectent pas le chroot, exploiter des file descriptors ouverts avant le chroot. Les <strong>conteneurs</strong> utilisent des namespaces pour une vraie isolation."
+                q: "Citez les usages de chroot mentionnés dans cette diapo.",
+                r: "<strong>Isolation</strong> (le processus ne voit que /new/root comme racine), <strong>récupération système</strong> (booter sur live USB, chroot dans le système à réparer), <strong>compilation</strong> (environnement de build isolé), et <strong>test de distributions</strong> (debootstrap + chroot)."
+            },
+            {
+                q: "Quelles sont les limites de chroot d'après cette diapo ?",
+                r: "Root peut s'échapper d'un chroot. Ce n'est <strong>pas</strong> un mécanisme de sécurité robuste. Pour une vraie isolation, utiliser des conteneurs (namespaces, cgroups) ou des VMs."
             }
         ]
     },
@@ -283,12 +299,16 @@ const section13Data = [
         `,
         questions: [
             {
-                q: "Quels sont les défis des systèmes de fichiers distribués ?",
-                r: "1) <strong>Cohérence</strong> : que voit-on si deux clients modifient le même fichier ? 2) <strong>Latence</strong> : le réseau est lent par rapport au disque local. 3) <strong>Tolérance aux pannes</strong> : que faire si un serveur tombe ? 4) <strong>Partitionnement</strong> : comment gérer une coupure réseau ?"
+                q: "Qu'est-ce qu'un FS distribué selon cette diapo ?",
+                r: "Données réparties sur plusieurs machines."
             },
             {
-                q: "Quelle différence entre NFS et sshfs ?",
-                r: "<strong>NFS</strong> : protocole dédié, performant, nécessite une configuration serveur. <strong>sshfs</strong> : utilise SSH existant, simple à mettre en place (juste un compte SSH), moins performant mais chiffré par défaut. sshfs est idéal pour un usage ponctuel."
+                q: "Citez les protocoles réseau pour FS distribués mentionnés dans cette diapo.",
+                r: "<strong>NFS</strong> (Network File System : standard Unix, simple), <strong>SMB/CIFS</strong> (protocole Windows, Samba sous Linux), et <strong>sshfs</strong> (montage via SSH avec FUSE)."
+            },
+            {
+                q: "Citez les FS distribués à grande échelle mentionnés dans cette diapo.",
+                r: "<strong>GlusterFS</strong> (agrège le stockage de plusieurs serveurs), <strong>CephFS</strong> (stockage distribué hautement disponible), <strong>HDFS</strong> (Hadoop, Big Data), et <strong>S3</strong> (stockage objet Amazon)."
             }
         ]
     }

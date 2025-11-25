@@ -24,12 +24,16 @@ const section8Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre un système temps-réel et un système classique ?",
-                r: "Un système <strong>temps-réel</strong> garantit qu'une tâche sera terminée avant une <strong>deadline</strong> (échéance). Un système classique fait de son mieux mais ne donne aucune garantie temporelle. Pour l'audio/vidéo, un retard = saccades perceptibles."
+                q: "Citez les domaines nécessitant des garanties temps-réel mentionnés dans cette diapo.",
+                r: "<strong>embarqué, robotique, santé, audio, vidéo</strong>"
             },
             {
-                q: "Pourquoi Linux n'était-il pas temps-réel par défaut ?",
-                r: "Le noyau Linux contient des <strong>sections critiques</strong> non préemptibles où les interruptions sont désactivées. Pendant ces sections, aucune tâche temps-réel ne peut s'exécuter. Le patch PREEMPT_RT rend ces sections préemptibles, mais c'est complexe et peut impacter les performances."
+                q: "Selon cette diapo, depuis quelle version le patch PREEMPT_RT est-il fusionné dans Linux ?",
+                r: "<strong>Patch fusionné</strong> dans Linux depuis la version 6.12"
+            },
+            {
+                q: "Quel est le point clé de cette diapo sur l'ordonnanceur temps-réel ?",
+                r: "Il faut explicitement indiquer qu'on souhaite utiliser l'ordonnanceur temps-réel."
             }
         ]
     },
@@ -40,12 +44,7 @@ const section8Data = [
             <p><strong>Question</strong> : Si on a un unique cœur, a-t-on vraiment une exécution simultanée de plusieurs processus ?</p>
             <p><em>Cette diapo pose la question pour introduire la réflexion...</em></p>
         `,
-        questions: [
-            {
-                q: "Peut-on avoir une vraie exécution simultanée sur un seul cœur ?",
-                r: "<strong>Non</strong>. Sur un unique cœur, il n'y a qu'<strong>une seule unité d'exécution</strong>. Un seul processus peut s'exécuter à la fois. Ce qu'on perçoit comme \"simultané\" est en fait une alternance très rapide entre processus."
-            }
-        ]
+        questions: []
     },
     {
         id: 73,
@@ -60,12 +59,12 @@ const section8Data = [
         `,
         questions: [
             {
-                q: "Pourquoi dit-on que l'alternance est \"transparente\" pour les processus ?",
-                r: "Le processus ne sait pas qu'il a été interrompu. Quand il reprend, tous ses registres et son contexte sont restaurés exactement comme avant. Du point de vue du processus, l'exécution est <strong>continue</strong>, même si en réalité elle a été fragmentée."
+                q: "D'après cette diapo, a-t-on une vraie exécution simultanée avec un unique cœur ?",
+                r: "<strong>Réponse</strong> : <strong>Non</strong>, avec un unique cœur, il n'y a pas d'exécution vraiment simultanée. Uniquement une <strong>alternance d'exécution</strong> de processus. Mais c'est <strong>transparent</strong> pour les processus."
             },
             {
-                q: "Comment appelle-t-on cette illusion de simultanéité ?",
-                r: "On parle de <strong>pseudo-parallélisme</strong> ou de <strong>concurrence</strong> (par opposition au vrai <strong>parallélisme</strong> qui nécessite plusieurs cœurs). Le multitâche préemptif crée cette illusion en alternant très rapidement entre les processus."
+                q: "Quel est le point clé de cette diapo sur la perception des processus ?",
+                r: "Les processus ne savent pas qu'ils partagent le CPU. Chacun croit avoir le processeur pour lui seul."
             }
         ]
     },
@@ -88,12 +87,12 @@ const section8Data = [
         `,
         questions: [
             {
-                q: "Pourquoi changer de cœur cause-t-il des défauts de cache ?",
-                r: "Chaque cœur a son propre <strong>cache L1/L2</strong>. Quand un processus migre vers un autre cœur, ses données ne sont plus dans le cache local → il faut les recharger depuis la RAM ou le cache L3 partagé. C'est le <strong>cache miss</strong>, qui coûte des centaines de cycles."
+                q: "Citez les deux caractéristiques du multi-cœurs listées dans cette diapo.",
+                r: "Un flux d'exécution par cœur. Toujours de la <strong>préemption</strong> (généralement plus de tâches que de cœurs)."
             },
             {
-                q: "Qu'est-ce que l'affinité processeur ?",
-                r: "C'est la tendance à garder un processus sur le <strong>même cœur</strong> (ou groupe de cœurs) pour profiter des données déjà en cache. Linux essaie de respecter l'affinité mais peut migrer un processus si un cœur est libre et un autre surchargé."
+                q: "Quel est le point clé de cette diapo sur l'ordonnancement multi-cœurs ?",
+                r: "L'ordonnancement multi-cœurs doit équilibrer la charge tout en préservant la localité des données."
             }
         ]
     },
@@ -119,12 +118,12 @@ const section8Data = [
         `,
         questions: [
             {
-                q: "Pourquoi une seule runqueue pose-t-elle des problèmes de scalabilité ?",
-                r: "Avec une seule runqueue, tous les cœurs doivent prendre un <strong>verrou</strong> pour accéder à la file. Plus il y a de cœurs, plus la contention est forte. C'est un <strong>goulot d'étranglement</strong> qui limite le passage à l'échelle."
+                q: "Citez les deux approches de runqueue pour machines multicœurs mentionnées dans cette diapo.",
+                r: "<strong>Une seule runqueue (Load Sharing)</strong> : tous les cœurs y piochent, <strong>contention</strong> pour y accéder si beaucoup de cœurs. <strong>Une runqueue par cœur (Load Balancing)</strong> : chaque cœur a sa propre runqueue, <strong>pas de contention</strong>."
             },
             {
-                q: "Comment fonctionne le load balancing entre runqueues ?",
-                r: "Périodiquement, le noyau vérifie si certains cœurs sont surchargés et d'autres sous-utilisés. Si un déséquilibre est détecté, des processus sont <strong>migrés</strong> d'une runqueue à une autre. C'est un compromis entre équité et localité."
+                q: "Quel est le point clé de cette diapo sur l'approche de Linux ?",
+                r: "Linux utilise une runqueue par cœur avec un mécanisme de load balancing périodique."
             }
         ]
     },
@@ -134,12 +133,7 @@ const section8Data = [
         resume: `
             <p><em>Diapo de titre introduisant la section sur la gestion de la mémoire.</em></p>
         `,
-        questions: [
-            {
-                q: "Pourquoi la gestion de la mémoire est-elle un sujet central des OS ?",
-                r: "La mémoire est une ressource <strong>limitée</strong> et <strong>partagée</strong> entre tous les processus. L'OS doit : allouer la mémoire équitablement, <strong>isoler</strong> les processus entre eux, permettre le partage quand nécessaire, et gérer le manque de mémoire physique."
-            }
-        ]
+        questions: []
     },
     {
         id: 77,
@@ -161,12 +155,12 @@ const section8Data = [
         `,
         questions: [
             {
-                q: "Pourquoi utilise-t-on encore des bandes magnétiques ?",
-                r: "Les bandes sont <strong>très bon marché</strong> par Go et ont une excellente durabilité pour l'archivage à long terme. Les datacenters les utilisent pour les sauvegardes cold storage. L'accès est séquentiel et lent, mais pour des archives rarement consultées, c'est idéal."
+                q: "Citez les types de mémoire volatile listés dans cette diapo.",
+                r: "<strong>Registres</strong> des cœurs (ultra-rapide, quelques octets). <strong>Caches</strong> des cœurs (L1, L2, L3 - très rapide, Ko à Mo). <strong>RAM</strong> (rapide, Go)."
             },
             {
-                q: "Qu'est-ce que la hiérarchie mémoire ?",
-                r: "C'est l'organisation en niveaux : <strong>registres → cache L1 → L2 → L3 → RAM → SSD → HDD</strong>. En montant dans la hiérarchie : plus rapide, plus cher, plus petit. L'OS et le matériel gèrent automatiquement le placement des données dans cette hiérarchie."
+                q: "Quel est le point clé de cette diapo sur la hiérarchie mémoire ?",
+                r: "Plus la mémoire est rapide, plus elle est chère et petite. C'est la hiérarchie mémoire."
             }
         ]
     },
@@ -191,12 +185,12 @@ const section8Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence fondamentale entre cache et buffer ?",
-                r: "Le <strong>cache</strong> garde une copie des données pour un accès futur rapide. Le <strong>buffer</strong> accumule des données avant traitement (ex: écrire sur disque par blocs plutôt qu'octet par octet). Le cache optimise la <strong>lecture</strong>, le buffer optimise le <strong>traitement par lots</strong>."
+                q: "Citez les caractéristiques du cache listées dans cette diapo.",
+                r: "Zone de stockage <strong>intermédiaire</strong>, plus rapide mais plus petite. Données <strong>récemment accédées</strong> pour y accéder à nouveau. Préchargement de données qui pourraient être bientôt chargées. <strong>Évincement</strong> : déplacement vers mémoire plus lente quand plus de place."
             },
             {
-                q: "Quelles données évincer du cache quand il est plein ?",
-                r: "Algorithmes classiques : <strong>LRU</strong> (Least Recently Used) évince les données les moins récemment utilisées, <strong>LFU</strong> (Least Frequently Used) évince les moins fréquemment utilisées. LRU est le plus courant car simple et efficace."
+                q: "Citez les caractéristiques de la bufferisation listées dans cette diapo.",
+                r: "Stockage dans une zone <strong>temporaire</strong>. Traitement des données <strong>quand il y en a assez</strong>."
             }
         ]
     },
@@ -214,8 +208,12 @@ const section8Data = [
         `,
         questions: [
             {
-                q: "Quels sont les défis du partage de mémoire entre processus ?",
-                r: "1) <strong>Isolation</strong> : un processus ne doit pas accéder à la mémoire des autres. 2) <strong>Flexibilité</strong> : les besoins mémoire varient dans le temps. 3) <strong>Efficacité</strong> : éviter le gaspillage. 4) <strong>Partage contrôlé</strong> : permettre le partage volontaire (bibliothèques, IPC)."
+                q: "Quelle est la question centrale de cette diapo ?",
+                r: "Comment répartir la mémoire entre processus ?"
+            },
+            {
+                q: "Quel est le point clé de cette diapo ?",
+                r: "On retrouve les mêmes problématiques qu'avec le CPU : partage équitable, isolation, efficacité."
             }
         ]
     },
@@ -237,12 +235,12 @@ const section8Data = [
         `,
         questions: [
             {
-                q: "Pourquoi le partitionnement fixe est-il problématique ?",
-                r: "Les processus ont des besoins mémoire <strong>différents et variables</strong>. Un navigateur web peut avoir besoin de gigaoctets, un petit script de quelques Mo. Avec des partitions fixes, soit on gaspille, soit on manque de mémoire."
+                q: "Citez les inconvénients du partitionnement listés dans cette diapo.",
+                r: "Au maximum <strong>n processus</strong>. Chaque processus obtient la <strong>même quantité</strong> de mémoire. Processus qui n'utilise pas tout → <strong>gaspillage</strong>. Processus qui a besoin de plus → <strong>famine</strong>. Chaque processus a un intervalle d'adresses fixes."
             },
             {
-                q: "Comment empêcher un processus d'accéder à la mémoire des autres ?",
-                r: "Il faut un mécanisme de <strong>protection matérielle</strong>. Le processeur vérifie à chaque accès mémoire que l'adresse est dans les limites autorisées. Si non, il génère une exception (segmentation fault). C'est la base de la <strong>mémoire virtuelle</strong>."
+                q: "Quel est le point clé de cette diapo ?",
+                r: "Le partitionnement simple est trop rigide. Il faut une solution plus flexible."
             }
         ]
     }

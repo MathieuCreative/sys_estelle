@@ -18,12 +18,12 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Pourquoi le matériel doit-il pouvoir manipuler directement les tables ?",
-                r: "La traduction d'adresse se fait à <strong>chaque accès mémoire</strong> (milliards de fois par seconde). Si le noyau devait intervenir à chaque fois, ce serait beaucoup trop lent. Le matériel (MMU) fait la traduction <strong>automatiquement</strong>."
+                q: "Citez les objectifs pour les tables de pages mentionnés dans cette diapo.",
+                r: "Associer à chaque numéro de page une <strong>PTE</strong>, traduction la plus <strong>rapide</strong> possible, structure suffisamment simple pour être manipulable par du <strong>matériel dédié</strong>, et structure adaptée aux <strong>accès concurrents</strong>."
             },
             {
-                q: "Pourquoi les accès concurrents sont-ils un problème ?",
-                r: "Sur une machine multi-cœurs, plusieurs cœurs peuvent accéder aux tables <strong>simultanément</strong>. Si un cœur modifie une PTE pendant qu'un autre la lit, des incohérences peuvent survenir. La structure doit permettre des modifications <strong>atomiques</strong>."
+                q: "Quelle propriété peut-on exploiter selon cette diapo ?",
+                r: "Une grande partie de l'espace d'adressage <strong>n'est pas utilisé</strong>."
             }
         ]
     },
@@ -46,12 +46,12 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Pourquoi une table hachée n'est-elle pas idéale ?",
-                r: "Les <strong>collisions</strong> de hachage créent des listes à parcourir → temps de recherche <strong>non constant</strong>. De plus, le matériel doit implémenter la fonction de hachage et le parcours de liste, ce qui est complexe."
+                q: "Selon cette diapo, quel est le problème du tableau simple de PTE ?",
+                r: "2^20 PTE de 4 octets = <strong>4 Mo par processus</strong>."
             },
             {
-                q: "Quel est l'avantage principal des tables multi-niveaux ?",
-                r: "On peut <strong>ne pas allouer</strong> les sous-tables pour les zones inutilisées. Si un processus n'utilise que quelques Mo de mémoire, seules quelques sous-tables sont allouées, pas toute la table de 4 Mo."
+                q: "Citez les structures de données non entièrement allouées mentionnées dans cette diapo.",
+                r: "<strong>Liste d'intervalles</strong> (mauvaise complexité O(n)), <strong>arbre binaire</strong> (support matériel difficile, modifications non atomiques), et <strong>table hachée</strong> (optimal en mémoire, temps de recherche non constant, complexe)."
             }
         ]
     },
@@ -79,12 +79,16 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Comment la table multi-niveaux économise-t-elle de la mémoire ?",
-                r: "Si une entrée de niveau 1 pointe vers une zone non utilisée, on met un <strong>pointeur NULL</strong> au lieu d'allouer une sous-table. Les millions de PTE invalides ne sont tout simplement <strong>pas allouées</strong>."
+                q: "Qu'est-ce qu'une table multi-niveaux selon cette diapo ?",
+                r: "Un tableau d'indirection vers des sous-tableaux : tableau de niveau 1 avec N cases, N tableaux de niveau 2 avec M cases, etc."
             },
             {
-                q: "Quel est le coût d'une table multi-niveaux ?",
-                r: "La traduction est plus lente car il faut <strong>plusieurs accès mémoire</strong> (un par niveau). Avec 4 niveaux, 4 accès sont nécessaires avant d'avoir l'adresse physique. Le <strong>TLB</strong> atténue ce coût en cachant les traductions."
+                q: "D'après cette diapo, quel est l'intérêt des tables multi-niveaux ?",
+                r: "Supprimer les tableaux de niveau > 1 pour les zones mémoires <strong>invalides</strong>."
+            },
+            {
+                q: "Selon cette diapo, comment est découpée l'adresse virtuelle ?",
+                r: "Premiers bits : entrée dans la table de niveau 1, bits suivants : entrée dans le niveau suivant, derniers bits : <strong>décalage dans la page</strong>."
             }
         ]
     },
@@ -107,12 +111,12 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Pourquoi le pire cas est-il rare ?",
-                r: "Aucun processus n'utilise vraiment toute la mémoire virtuelle disponible (256 To en 64 bits !). Même les plus gros programmes utilisent quelques dizaines de Go au maximum. Les tables multi-niveaux sont donc <strong>presque toujours gagnantes</strong>."
+                q: "D'après cette diapo, que se passe-t-il avec un processus qui a une seule page mémoire ?",
+                r: "Une seule table allouée par niveau, <strong>très petit</strong> comparé à une table linéaire complète."
             },
             {
-                q: "Combien de mémoire pour un processus minimaliste avec des tables multi-niveaux ?",
-                r: "Avec 4 niveaux et des pages de 4 Ko : une table de 4 Ko par niveau = <strong>16 Ko</strong> total. Comparez à 4 Mo pour une table plate ! C'est une économie de facteur 250."
+                q: "Selon cette diapo, que se passe-t-il avec un processus qui utilise toute la mémoire virtuelle ?",
+                r: "Le dernier niveau fait la même taille qu'une table linéaire complète, plus les tables de niveaux inférieurs en plus. Mais c'est le <strong>pire cas</strong>, extrêmement rare."
             }
         ]
     },
@@ -137,12 +141,16 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Pourquoi seulement 48 bits sur les 64 disponibles ?",
-                r: "48 bits permettent déjà d'adresser <strong>256 To</strong>, bien plus que n'importe quel système actuel. Utiliser plus de bits augmenterait la taille des tables sans bénéfice pratique. Les bits 48-63 sont réservés pour le futur."
+                q: "Selon cette diapo, combien de niveaux sont utilisés dans Linux x86_64 ?",
+                r: "<strong>4 niveaux</strong> utilisés (5 possibles avec le flag <code>la57</code>)."
             },
             {
-                q: "Que fait le flag la57 ?",
-                r: "Il active le <strong>5ème niveau</strong> de tables de pages, passant de 48 à 57 bits d'adresse. Cela permet d'adresser <strong>128 Po</strong> (pétaoctets) de mémoire virtuelle. Utile uniquement pour les très grosses machines."
+                q: "Citez le découpage de l'adresse mentionné dans cette diapo.",
+                r: "9 bits de <strong>PGD</strong> (Page Global Directory), 9 bits de <strong>PUD</strong> (Page Upper Directory), 9 bits de <strong>PMD</strong> (Page Middle Directory), 9 bits de <strong>PTE</strong> (Page Table Entry), et 12 bits de décalage dans la page."
+            },
+            {
+                q: "D'après cette diapo, combien de bits d'adresse virtuelle sont réellement utilisés ?",
+                r: "Seulement <strong>48 bits</strong> d'adresse virtuelle réellement utilisés."
             }
         ]
     },
@@ -163,12 +171,12 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Pourquoi aligner les tables sur des pages est-il avantageux ?",
-                r: "1) L'allocation de pages est simple et rapide. 2) Les tables sont automatiquement <strong>alignées</strong> en mémoire. 3) On peut utiliser les mêmes mécanismes de pagination pour les tables elles-mêmes. 4) Facilite le swap des tables."
+                q: "Selon cette diapo, pourquoi utilise-t-on 9 bits par niveau ?",
+                r: "Chaque (sous-)table doit tenir exactement dans une <strong>page</strong> (4096 octets). Une PTE = <strong>8 octets</strong>. 4096 / 8 = <strong>512 PTE</strong> par page. 512 = 2^9 → besoin de <strong>9 bits</strong> pour l'index dans la page."
             },
             {
-                q: "Combien d'entrées maximum par niveau ?",
-                r: "Avec 9 bits, chaque niveau peut avoir <strong>512 entrées</strong> (2^9). Donc : niveau 1 = 512 entrées vers niveau 2, niveau 2 = 512×512 entrées possibles, etc. Au total : 512^4 = 2^36 pages de 4 Ko = 2^48 octets adressables."
+                q: "D'après cette diapo, quelle est la taille d'une PTE ?",
+                r: "Une PTE = <strong>8 octets</strong>."
             }
         ]
     },
@@ -191,12 +199,16 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Quel est l'avantage de la pagination fainéante ?",
-                r: "Un programme peut allouer 1 Go mais n'utiliser que 10 Mo. Sans allocation paresseuse, 1 Go de RAM serait réservé inutilement. Avec, seuls les 10 Mo réellement utilisés consomment de la RAM. <strong>Énorme économie</strong> de mémoire."
+                q: "Qu'est-ce que l'allocation paresseuse selon cette diapo ?",
+                r: "Dire que l'allocation a réussi, créer la PTE, mais allouer la page physique <strong>au dernier moment</strong> (lors du <strong>premier accès</strong>)."
             },
             {
-                q: "Qu'est-ce que le demand paging ?",
-                r: "C'est le chargement des pages de code/données depuis le disque <strong>à la demande</strong>. Au lancement d'un programme, seules quelques pages sont chargées. Le reste est chargé quand le code y accède, via des défauts de page."
+                q: "Citez les applications de l'allocation paresseuse mentionnées dans cette diapo.",
+                r: "Ne pas dupliquer une page tant qu'elle n'est pas <strong>modifiée</strong>, et charger une page depuis le disque que lors de l'<strong>accès</strong>."
+            },
+            {
+                q: "Qu'est-ce qu'un défaut de page d'après cette diapo ?",
+                r: "Exception déclenchée lors de l'accès à une page non encore allouée physiquement."
             }
         ]
     },
@@ -220,12 +232,12 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Comment le noyau distingue-t-il les différents cas de défaut de page ?",
-                r: "Le noyau consulte ses <strong>structures internes</strong> (VMA - Virtual Memory Areas) pour savoir si l'adresse est valide et quel type de page c'est. Il regarde aussi le type d'accès (lecture/écriture/exécution) et les permissions."
+                q: "Selon cette diapo, qu'est-ce qu'un défaut de page ?",
+                r: "Accès à une page virtuelle qui n'a pas de page physique associée. Le processeur envoie une <strong>exception</strong> au noyau."
             },
             {
-                q: "Un défaut de page est-il coûteux ?",
-                r: "Un défaut de page \"mineur\" (allocation simple) coûte quelques <strong>microsecondes</strong>. Un défaut \"majeur\" (chargement depuis le disque) peut coûter des <strong>millisecondes</strong> (1000× plus lent). Trop de défauts majeurs = système très lent (thrashing)."
+                q: "Citez les cas possibles de défaut de page mentionnés dans cette diapo.",
+                r: "<strong>Mémoire pas allouée physiquement</strong> → allocation d'une page, <strong>page mémoire sur le disque</strong> (swap) → chargement en RAM, <strong>accès en écriture à une page CoW</strong> → duplication, <strong>adresse invalide / accès interdit</strong> → segmentation fault."
             }
         ]
     },
@@ -249,12 +261,16 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Quelle est la différence entre MAP_SHARED et MAP_PRIVATE pour un fichier ?",
-                r: "<strong>MAP_SHARED</strong> : les modifications sont écrites dans le fichier et visibles par les autres processus. <strong>MAP_PRIVATE</strong> : les modifications créent une copie privée (CoW), le fichier original n'est pas modifié."
+                q: "Qu'est-ce qu'une projection selon cette diapo ?",
+                r: "Mapper une zone mémoire dans l'espace d'adressage d'un processus, depuis un <strong>fichier</strong> sur disque ou depuis une <strong>autre zone mémoire</strong>."
             },
             {
-                q: "Pourquoi utiliser mmap() plutôt que read()/write() ?",
-                r: "Avec mmap(), le fichier est directement accessible comme de la mémoire. Pas besoin de copier les données vers un buffer. Les accès sont gérés par la pagination → <strong>plus efficace</strong> pour les gros fichiers ou les accès aléatoires."
+                q: "Citez les options de mmap() mentionnées dans cette diapo.",
+                r: "<code>MAP_SHARED</code> (modifications répercutées dans le fichier), <code>MAP_PRIVATE</code> (modifications propres au processus, copy-on-write), et <code>MAP_ANONYMOUS</code> (pas de fichier, initialisation à zéro)."
+            },
+            {
+                q: "D'après cette diapo, à quoi sert mmap() ?",
+                r: "Utilisations : pile, tas, code, bibliothèques partagées. mmap() permet de <strong>mutualiser</strong> les zones mémoires communes."
             }
         ]
     },
@@ -279,12 +295,16 @@ const section10Data = [
         `,
         questions: [
             {
-                q: "Pourquoi fork() + exec() est-il un pattern si courant ?",
-                r: "C'est la façon Unix de créer un nouveau processus : <code>fork()</code> crée une copie, <code>exec()</code> remplace son code par un autre programme. Sans CoW, fork() copierait des Go de mémoire... juste pour les jeter immédiatement avec exec()."
+                q: "Quel est le problème avec fork() selon cette diapo ?",
+                r: "Les copies mémoires coûtent cher. <code>fork()</code> devrait dupliquer tout l'espace mémoire, mais est souvent suivi de <code>exec()</code> qui remplace tout."
             },
             {
-                q: "Comment le noyau sait-il quand faire la copie ?",
-                r: "Les pages CoW sont marquées <strong>lecture seule</strong>. Quand un processus écrit, le matériel déclenche un défaut de page (violation de permission). Le noyau vérifie que c'est du CoW, crée une copie de la page, et retente l'écriture."
+                q: "Qu'est-ce que le Copy-on-Write d'après cette diapo ?",
+                r: "Retarder au maximum les duplications. Les pages des deux processus pointent vers la <strong>même page physique</strong> et sont mises en <strong>lecture seule</strong>. Lors d'une modification → <strong>défaut de page</strong> → copie de la page physique."
+            },
+            {
+                q: "Selon cette diapo, quel est l'impact du CoW sur fork() ?",
+                r: "fork() devient quasi-instantané grâce au CoW, même pour des processus de plusieurs Go."
             }
         ]
     }
